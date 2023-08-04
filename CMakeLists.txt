@@ -22,17 +22,17 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
 # Cube file name without .ioc extension
-project(stm32_project_template C ASM)
+project(blackpill_test C ASM)
 
 # Set the board version to an empty string if your board doesn't have a version
-set(BOARD_VERSION "")
+set(BOARD_VERSION "v1")
 
 # Device Configuration
-set(DEVICE_CORTEX F3)
-set(DEVICE_FAMILY STM32F3xx)
-set(DEVICE_TYPE STM32F303xx)
-set(DEVICE_DEF STM32F303xE)
-set(DEVICE STM32F303RE)
+set(DEVICE_CORTEX F4)
+set(DEVICE_FAMILY STM32F4xx)
+set(DEVICE_TYPE STM32F411xx)
+set(DEVICE_DEF STM32F411xE)
+set(DEVICE STM32F411CE)
 
 # DEVICE_FAMILY_COMPACT is the same as DEVICE_FAMILY but without the STM32 prefix
 string(REPLACE "STM32" "" DEVICE_FAMILY_COMPACT ${DEVICE})
@@ -87,7 +87,8 @@ set(DEPENDENCIES
     HAL::STM32::${DEVICE_CORTEX}::I2C
     HAL::STM32::${DEVICE_CORTEX}::SPI
     HAL::STM32::${DEVICE_CORTEX}::TIMEx
-    HAL::STM32::${DEVICE_CORTEX}::UARTEx
+    HAL::STM32::${DEVICE_CORTEX}::UART
+    HAL::STM32::${DEVICE_CORTEX}::USART
     HAL::STM32::${DEVICE_CORTEX}::WWDG
 
     HAL::STM32::${DEVICE_CORTEX}::RCCEx

@@ -2,15 +2,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "cortex-debug",
+            "name": "Cortex Debug (ST-Link)",
+            "cwd": "${workspaceFolder}",
+            "executable": "build/blackpill_test.elf",
             "request": "launch",
-            "servertype": "stutil",
-            "cwd": "${CMAKE_CURRENT_SOURCE_DIR}",
-            "gdbPath": "arm-none-eabi-gdb",
-            "executable": "build/${DEBUG_FILE_NAME}.elf",
-            "name": "Cortex Debug (ST-Util)",
-            "device": "${DEVICE}",
-            "v1": false
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "openocd",
+            "gdbPath": "gdb-multiarch",
+            "configFiles":
+            [
+                "/usr/share/openocd/scripts/interface/stlink.cfg",
+                "/usr/share/openocd/scripts/target/stm32f4x.cfg"
+            ]
         },
         {
             "type": "cortex-debug",
