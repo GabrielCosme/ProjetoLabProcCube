@@ -16,8 +16,6 @@ static constexpr uint16_t extra_long_press_time_ms 3000
 Button::Button(GPIO_TypeDef* port, uint16_t pin, button_resistor_t pull_resistor) :
     port(port), pin(pin), pull_resistor(pull_resistor) {
     hal_gpio_init();
-
-    debounce_timer = 0;
 }
 
 void Button::update_state() {
@@ -26,7 +24,7 @@ void Button::update_state() {
     if ((this->current_state != raw_reading) && !this->is_debouncing) {
         this->is_debouncing = true;
         reset_timer_ms(this->debounce_timer);
-    } else if ((get_timer_ms(this->debounce_timer) < DEBOUNCE_DELAY_MS) && this->is_debouncing) {
+    } else if ((get_timer_ms(this->debounce_timer) < debounce_delay_ms) && this->is_debouncing) {
         if (this->current_state == raw_reading) {
             this->is_debouncing = false;
             return;
@@ -56,9 +54,9 @@ button_status_t Button::get_status() {
     if (this->is_rising_edge()) {
         reset_timer_ms(this->status_timer);
     } else if (this->is_falling_edge()) {
-        if (get_timer_ms(this->status_timer) > EXTRA_LONG_PRESS_TIME_MS) {
+        if (get_timer_ms(this->status_timer) > extra_long_press_time_ms) {
             return BUTTON_EXTRA_LONG_PRESS;
-        } else if (get_timer_ms(this->status_timer) > LONG_PRESS_TIME_MS) {
+        } else if (get_timer_ms(this->status_timer) > long_press_time_ms) {
             return BUTTON_LONG_PRESS;
         } else {
             return BUTTON_SHORT_PRESS;
