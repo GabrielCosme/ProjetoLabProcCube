@@ -22,7 +22,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
 # Cube file name without .ioc extension
-project(blackpill_test C ASM)
+project(blackpill_test C CXX ASM)
 
 # Set the board version to an empty string if your board doesn't have a version
 set(BOARD_VERSION "v1")
@@ -126,12 +126,12 @@ set(TEST_INCLUDE_DIRECTORIES
 ## Input files
 ###############################################################################
 
-file(GLOB_RECURSE C_SOURCES CONFIGURE_DEPENDS "src/*.c")
-file(GLOB_RECURSE C_HEADERS CONFIGURE_DEPENDS "inc/*.h")
+file(GLOB_RECURSE C_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+file(GLOB_RECURSE C_HEADERS CONFIGURE_DEPENDS "inc/*.hpp")
 
-file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS "tests/src/*.c")
-file(GLOB_RECURSE TESTS_HEADERS CONFIGURE_DEPENDS "tests/inc/*.h")
-file(GLOB_RECURSE TESTS_BIN CONFIGURE_DEPENDS "tests/bin/*.c")
+file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS "tests/src/*.cpp")
+file(GLOB_RECURSE TESTS_HEADERS CONFIGURE_DEPENDS "tests/inc/*.hpp")
+file(GLOB_RECURSE TESTS_BIN CONFIGURE_DEPENDS "tests/bin/*.cpp")
 
 file(GLOB_RECURSE CUBE_SOURCES CONFIGURE_DEPENDS "cube/Src/*.c")
 
