@@ -1,5 +1,5 @@
 
-#include "proxy/buttons.hpp"
+#include "proxy/button.hpp"
 
 /*****************************************
  * Private Constants
@@ -36,15 +36,15 @@ void Button::update_state() {
     }
 }
 
-bool Button::is_rising_edge() {
+bool Button::is_rising_edge() const {
     return (this->current_state && !this->previous_state);
 }
 
-bool Button::is_falling_edge() {
+bool Button::is_falling_edge() const {
     return (!this->current_state && this->previous_state);
 }
 
-button_state_t Button::get_reading() {
+button_state_t Button::get_reading() const {
     return (hal_gpio_read(this->port, this->pin) == this->pull_resistor);
 }
 

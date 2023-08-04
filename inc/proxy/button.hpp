@@ -51,7 +51,7 @@ class Button {
          *
          * @return button_state_t Button state
          */
-        button_state_t get_reading();
+        button_state_t get_reading() const;
 
         /**
          * @brief Provides the status of the chosen button.
@@ -80,14 +80,14 @@ class Button {
          *
          * @return true if the button was just pressed, false otherwise
          */
-        is_rising_edge();
+        is_rising_edge() const;
 
         /**
          * @brief Checks if the button was just released
          *
          * @return true if the button was just released, false otherwise
          */
-        is_falling_edge();
+        is_falling_edge() const;
 };
 
 #endif // __BUTTON_H__
