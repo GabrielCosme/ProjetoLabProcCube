@@ -51,6 +51,17 @@ set(TARGET_BOARD target_${PROJECT_RELEASE})
 set(LAUNCH_JSON_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.vscode/launch.json)
 set(DEBUG_FILE_NAME ${PROJECT_NAME})
 
+# SET OPENOCD TARGET CONFIGURATION FILE
+if(CMAKE_HOST_WIN32)
+    set(OPENOCD_SCRIPTS_PATH "C:\\msys64\\mingw64\\share\\openocd\\scripts")
+else()
+    set(OPENOCD_SCRIPTS_PATH "/usr/share/openocd/scripts")
+endif()
+string(TOLOWER ${DEVICE_FAMILY} LOWERCASE_DEVICE_FAMILY)
+string(LENGTH ${LOWERCASE_DEVICE_FAMILY} LENGTH)
+math(EXPR LENGTH_MINUS_ONE "${LENGTH} - 1")
+string(SUBSTRING ${LOWERCASE_DEVICE_FAMILY} 0 ${LENGTH_MINUS_ONE} TARGET_CFG)
+
 include(cmake/config_validation.cmake)
 include(cmake/workspace.cmake)
 include(cmake/targets.cmake)
@@ -141,6 +152,7 @@ list(REMOVE_ITEM CUBE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cube/Src/system_${DEVI
 
 # Add here the headers to be included in all files
 set(FORCED_INCLUDE_HEADERS
+  cfg/target.hpp
 )
 
 targets_generate_format_target(C_SOURCES C_HEADERS TESTS_SOURCES TESTS_HEADERS TESTS_BIN)
@@ -185,12 +197,12 @@ targets_generate_helpme_target()
 ## Generate test executables
 ###############################################################################
 
-# Since each test has its own main function, we don't need the main.c from the project
-list(REMOVE_ITEM C_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c)
+# Since each test has its own main function, we don't need the main.cpp from the project
+list(REMOVE_ITEM C_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 foreach(TEST_FILE ${TESTS_BIN})
 
-    # If TEST_FILE contains /dir1/dir2/file.c, TEST_NAME will be 'file'
+    # If TEST_FILE contains /dir1/dir2/file.cpp, TEST_NAME will be 'file'
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WLE)
 
     add_executable(${TEST_NAME} EXCLUDE_FROM_ALL

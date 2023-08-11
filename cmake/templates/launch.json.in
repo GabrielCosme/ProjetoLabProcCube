@@ -2,9 +2,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Cortex Debug (ST-Link)",
-            "cwd": "${workspaceFolder}",
-            "executable": "build/blackpill_test.elf",
+            "name": "Cortex Debug (ST-Link OpenOCD)",
+            "cwd": "${CMAKE_CURRENT_SOURCE_DIR}",
+            "executable": "build/${DEBUG_FILE_NAME}.elf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
@@ -12,8 +12,8 @@
             "gdbPath": "gdb-multiarch",
             "configFiles":
             [
-                "/usr/share/openocd/scripts/interface/stlink.cfg",
-                "/usr/share/openocd/scripts/target/stm32f4x.cfg"
+                "${OPENOCD_SCRIPTS_PATH}/interface/stlink.cfg",
+                "${OPENOCD_SCRIPTS_PATH}/target/${TARGET_CFG}.cfg"
             ]
         },
         {
