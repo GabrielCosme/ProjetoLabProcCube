@@ -35,11 +35,11 @@ void Button::update_state() {
     }
 }
 
-bool Button::is_rising_edge() {
+bool Button::is_rising_edge() const {
     return (this->current_state && !this->previous_state);
 }
 
-bool Button::is_falling_edge() {
+bool Button::is_falling_edge() const {
     return (!this->current_state && this->previous_state);
 }
 
