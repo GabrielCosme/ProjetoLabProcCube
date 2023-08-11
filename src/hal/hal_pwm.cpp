@@ -1,14 +1,20 @@
-#include "hal/hal_pwm.h"
+#include "hal/hal_pwm.hpp"
 
-void hal_pwm_init(void) {
-    MX_TIM1_Init();
-    MX_TIM2_Init();
+HalPwm::HalPwm(TIM_HandleTypeDef* htim, uint32_t channel) {
+    if (htim->Instance == TIM1) {
+        MX_TIM1_Init();
+    } else if (htim->Instance == TIM2) {
+        MX_TIM2_Init();
+    }
+
+    this->tim_handle = htim;
+    this->channel = channel;
 }
 
-void hal_pwm_start(TIM_HandleTypeDef* htim, uint32_t channel) {
-    HAL_TIM_PWM_Start(htim, channel);
+void HalPwm::start(void) {
+    HAL_TIM_PWM_Start(this->tim_handle, this->channel);
 }
 
-void hal_pwm_set_compare(TIM_HandleTypeDef* htim, uint32_t channel, uint32_t compare) {
-    __HAL_TIM_SET_COMPARE(htim, channel, compare);
+void HalPwm::set_compare(uint32_t compare) {
+    __HAL_TIM_SET_COMPARE(this->tim_handle, this->channel, compare);
 }

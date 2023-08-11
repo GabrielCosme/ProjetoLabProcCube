@@ -1,5 +1,5 @@
-#ifndef __HAL_PWM_H__
-#define __HAL_PWM_H__
+#ifndef __HAL_PWM_HPP__
+#define __HAL_PWM_HPP__
 
 #include "tim.h"
 
@@ -7,10 +7,27 @@
 // #define TIM_CHANNEL_1 0x00000000U
 // #define TIM_CHANNEL_2 0x00000004U
 
-void hal_pwm_init(void);
+/*****************************************
+ * Class Declaration
+ *****************************************/
 
-void hal_pwm_start(TIM_HandleTypeDef* htim, uint32_t channel);
+class HalPwm {
+    public:
+        /**
+         * @brief Construct a new Hal Pwm object
+         *
+         * @param htim
+         * @param channel
+         */
+        HalPwm(TIM_HandleTypeDef* htim, uint32_t channel);
 
-void hal_pwm_set_compare(TIM_HandleTypeDef* htim, uint32_t channel, uint32_t compare);
+        void start(void);
 
-#endif // __HAL_PWM_H__
+        void set_compare(uint32_t compare);
+
+    private:
+        TIM_HandleTypeDef* tim_handle;
+        uint32_t channel;
+};
+
+#endif // __HAL_PWM_HPP__
