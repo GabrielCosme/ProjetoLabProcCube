@@ -26,7 +26,3 @@ void mcu_init(void) {
 void mcu_sleep(uint32_t ms) {
     HAL_Delay(ms);
 }
-
-void led_toggle(void) {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-}

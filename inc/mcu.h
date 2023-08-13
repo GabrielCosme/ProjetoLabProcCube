@@ -31,9 +31,4 @@ void SystemClock_Config(void);
  */
 void mcu_sleep(uint32_t ms);
 
-/**
- * @brief Toggles LED.
- */
-void led_toggle(void);
-
 #endif // __MCU_H__
