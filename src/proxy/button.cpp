@@ -43,8 +43,8 @@ bool Button::is_falling_edge() const {
     return (!this->current_state && this->previous_state);
 }
 
-bool Button::is_pressed() {
-    return (hal_gpio.read() == this->is_pulldown);
+bool Button::is_pressed() const {
+    return (this->hal_gpio.read() == this->is_pulldown);
 }
 
 button_status_t Button::get_status() {

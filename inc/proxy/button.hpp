@@ -1,8 +1,7 @@
 #ifndef __BUTTON_HPP__
 #define __BUTTON_HPP__
 
-#include <stdbool.h>
-#include <stdint.h>
+#include <cstdint>
 
 #include "hal/hal_gpio.hpp"
 #include "hal/hal_timer.hpp"
@@ -30,9 +29,9 @@ class Button {
         /**
          * @brief Construct a new Button object
          *
-         * @param port
-         * @param pin
-         * @param is_pulldown
+         * @param port pointer to the GPIO port
+         * @param pin number of the GPIO pin
+         * @param is_pulldown true if the button is connected to ground, false otherwise
          */
         Button(GPIO_TypeDef* port, uint16_t pin, bool is_pulldown);
 
@@ -60,7 +59,7 @@ class Button {
          *
          * @return bool true if button is pressed
          */
-        bool is_pressed();
+        bool is_pressed() const;
 
         /**
          * @brief Updates the state of the button
@@ -72,14 +71,14 @@ class Button {
          *
          * @return true if the button was just pressed, false otherwise
          */
-        bool is_rising_edge();
+        bool is_rising_edge() const;
 
         /**
          * @brief Checks if the button was just released
          *
          * @return true if the button was just released, false otherwise
          */
-        bool is_falling_edge();
+        bool is_falling_edge() const;
 };
 
 #endif // __BUTTON_HPP__
