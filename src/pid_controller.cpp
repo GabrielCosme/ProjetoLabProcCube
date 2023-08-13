@@ -1,35 +1,22 @@
 #include <cmath>
 
-#include "thundervolt_core/utils.h"
-#include "thundervolt_nav/controllers/basics/pid_controller.h"
-
-/*****************************************
- * Private Constants
- *****************************************/
-
-/**
- * @brief Cutoff frequency is 1/5 of the sampling frequency
- */
-static constexpr double cutoff_and_sampling_freqs_relat{0.2};
-
-static const std::string pid_logger_name{"pid_controller"};
+#include "pid_controller.hpp"
 
 /*****************************************
  * Class Methods Bodies Definitions
  *****************************************/
 
-PidController::PidController(double kp, double ki, double kd, double setpoint, double freq, double saturation,
-                             double max_integral) :
+PidController::PidController(float kp, float ki, float kd, float setpoint, float freq, float saturation,
+                             float max_integral) :
     kp{kp}, ki{ki}, kd{kd}, setpoint{setpoint}, freq{freq},
-    saturation{saturation}, max_integral{max_integral}, error_acc{0.0}, prev_error{0.0},
-    dedt_filter{freq * cutoff_and_sampling_freqs_relat, freq} {
+    saturation{saturation}, max_integral{max_integral}, error_acc{0.0}, prev_error{0.0} {
 }
 
-void PidController::set_setpoint(double setpoint) {
+void PidController::set_setpoint(float setpoint) {
     this->setpoint = setpoint;
 }
 
-void PidController::set_parameters(double kp, double ki, double kd, double saturation, double max_integral) {
+void PidController::set_parameters(float kp, float ki, float kd, float saturation, float max_integral) {
     this->kp = kp;
     this->ki = ki;
     this->kd = kd;
@@ -39,38 +26,37 @@ void PidController::set_parameters(double kp, double ki, double kd, double satur
 
 void PidController::reset() {
     this->error_acc = 0;
-    this->prev_error = 0;
+    this->prev_state = 0;
+    this->last_response = 0;
 }
 
-double PidController::update(double state) {
-    uint32_t loop_time_us = get_timer_us(p_pid->timer_us);
+float PidController::update(float state) {
+    uint32_t loop_time_us = this->timer_us.get_time();
 
     if (loop_time_us == 0) {
-        return p_pid->last_response;
+        return this->last_response;
     }
 
-    double error = this->setpoint - state;
-    double dedt = this->dedt_filter.update((error - this->prev_error) * this->freq);
+    float state_change = (state - this->prev_state) / US_TO_S(loop_time_us);
 
-    return this->update(error, dedt);
+    return this->update(state, state_change);
 }
 
-double PidController::update(double state, double state_change) {
-    uint32_t loop_time_us = get_timer_us(p_pid->timer_us);
+float PidController::update(float state, float state_change) {
+    uint32_t loop_time_us = this->timer_us.get_time();
 
     if (loop_time_us == 0) {
-        return p_pid->last_response;
+        return this->last_response;
     }
 
-    double error = this->setpoint - state;
+    float error = this->setpoint - state;
+    this->prev_state = state;
 
-    this->prev_error = error;
-
-    double response = this->kp * (error + this->ki * this->error_acc + this->kd * state_change);
+    float response = this->kp * (error + this->ki * this->error_acc + this->kd * state_change);
 
     if (this->saturation < 0 or std::abs(response) < this->saturation or
         this->error_acc != 0 and std::signbit(this->error_acc) != std::signbit(error)) {
-        this->error_acc += error / this->freq;
+        this->error_acc += error * US_TO_S(loop_time_us);
     }
 
     if (this->max_integral >= 0 and this->ki > 0) {
@@ -83,6 +69,9 @@ double PidController::update(double state, double state_change) {
     if (this->saturation >= 0 and std::abs(response) >= this->saturation) {
         response = thundervolt_core::constrain(response, -this->saturation, this->saturation);
     }
+
+    this->last_response = response;
+    this->timer_us.reset();
 
     return response;
 }

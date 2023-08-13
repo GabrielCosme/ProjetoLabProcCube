@@ -1,9 +1,8 @@
 #ifndef __PID_CONTROLLER_HPP__
 #define __PID_CONTROLLER_HPP__
 
-#include "thundervolt_nav/controllers/basics/butterworth_sec_order.h"
+#include <hal/hal_timer.hpp>
 
-namespace thundervolt_nav {
 /**
  * @brief Implementation of simple PID controller
  *        Response = Kp(error + Ki * integral(error) Kd * d/dt(error))
@@ -17,32 +16,29 @@ class PidController {
          * @param ki Integrative constant
          * @param kd Derivative constant
          * @param setpoint Desired state
-         * @param freq PID sampling frequency
          * @param saturation Maximum response returned by the controller
          * @param max_integral Maximum integrative response
          */
-        PidController(double kp, double ki, double kd, double setpoint = 0.0, double saturation = -1.0,
-                      double max_integral = -1.0, double integral_fade_rate = 1.0);
+        PidController(float kp, float ki, float kd, float setpoint = 0.0, float saturation = -1.0,
+                      float max_integral = -1.0);
 
         /**
          * @brief Set the setpoint object
          *
          * @param setpoint Desired state
          */
-        void set_setpoint(double setpoint);
+        void set_setpoint(float setpoint);
 
         /**
          * @brief Set the controller parameters
          *
-         * @param kp Proportinal constant
+         * @param kp Proportional constant
          * @param ki Integrative constant
          * @param kd Derivative constant
          * @param saturation Maximum response returned by the controller
          * @param max_integral Maximum integrative response
-         * @param integral_fade_rate Rate at which the accumulated response dissipates
          */
-        void set_parameters(double kp, double ki, double kd, double saturation = -1.0, double max_integral = -1.0,
-                            double integral_fade_rate = 1.0);
+        void set_parameters(float kp, float ki, float kd, float saturation = -1.0, float max_integral = -1.0);
 
         /**
          * @brief Reset prev_error and error_acc objects
@@ -56,7 +52,7 @@ class PidController {
          *
          * @return Response
          */
-        double update(double state);
+        float update(float state);
 
         /**
          * @brief Update PID with new state and return response
@@ -66,7 +62,7 @@ class PidController {
          *
          * @return Response
          */
-        double update(double state, double state_change);
+        float update(float state, float state_change);
 
         /**
          * @brief Output stream operator overloading
@@ -74,17 +70,17 @@ class PidController {
         friend std::ostream& operator <<(std::ostream& output, const PidController& pid_controller);
 
     private:
-        double kp;           /**< Proportional constant */
-        double ki;           /**< Integrative constant */
-        double kd;           /**< Derivative constant */
-        double setpoint;     /**< Desired state */
-        double saturation;   /**< Maximum response returned by the controller */
-        double max_integral; /**< Maximum integrative accumulative response */
-        double error_acc;    /**< Accumulated error for i term */
-        double prev_error;   /**< Previous error for d term */
+        float kp;            /**< Proportional constant */
+        float ki;            /**< Integrative constant */
+        float kd;            /**< Derivative constant */
+        float setpoint;      /**< Desired state */
+        float saturation;    /**< Maximum response returned by the controller */
+        float max_integral;  /**< Maximum integrative accumulative response */
+        float error_acc;     /**< Accumulated error for i term */
+        float prev_state;    /**< Previous state for d term */
+        float last_response; /**< Last response returned by the controller */
 
-        ButterworthSecondOrder dedt_filter;  /**< Derivative filter */
+        HalTimer timer_us;  /**< Timer used to compute the loop time */
 };
-}  // namespace thundervolt_nav
 
 #endif // __PID_CONTROLLER_HPP__
