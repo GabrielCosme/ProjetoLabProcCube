@@ -15,7 +15,11 @@ void Locomotion::set_speeds(int16_t linear, int16_t angular) {
     this->left_motor.set_speed(right_command);
 }
 
-void saturate_command(int16_t& saturated_command, int16_t& other_command) {
+static float Locomotion::linear_decay(float angular_error, float dependency) {
+    return dependency / (dependency + angular_error * angular_error);
+}
+
+static void Locomotion::saturate_command(int16_t& saturated_command, int16_t& other_command) {
     if (saturated_command > MAX_MOTORS_SPEED) {
         other_command *= MAX_MOTORS_SPEED / saturated_command;
         saturated_command = MAX_MOTORS_SPEED;
