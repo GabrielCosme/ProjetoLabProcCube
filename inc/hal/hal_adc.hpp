@@ -1,7 +1,8 @@
 #ifndef __HAL_ADC_HPP__
 #define __HAL_ADC_HPP__
 
-#include "stdint.h"
+#include <cstdint>
+
 #include "adc.h"
 
 /*****************************************
@@ -10,6 +11,13 @@
 
 class HalAdc {
     public:
+        /**
+         * @brief Construct a new Hal Adc object
+         *
+         * @param adc_handle pointer to the ADC handle
+         * @param number_of_channels number of channels
+         * @param reading_per_channel number of reading per channel
+         */
         HalAdc(ADC_HandleTypeDef* adc_handle, uint8_t number_of_channels, uint16_t reading_per_channel);
 
         /**
@@ -25,8 +33,7 @@ class HalAdc {
         /**
          * @brief Check if the ADC conversion is done
          *
-         * @return true if the conversion is done
-         * @return false if the conversion is not done
+         * @return true if the conversion is done, false otherwise
          */
         bool is_reading_done(void);
 
