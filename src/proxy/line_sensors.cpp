@@ -8,9 +8,7 @@
  * Private Constants
  *****************************************/
 
-constexpr uint16_t LINE_SENSOR_THRESHOLD = 1000;
-
-constexpr float SENSORS_WEIGHT[] = {5.0, 4.0, 3.0, 2.0, 1.0, -1.0, -2.0, -3.0, -4.0, -5.0};
+constexpr uint16_t line_threshold = 1000;
 
 /*****************************************
  * Public Functions Bodies Definitions
@@ -20,6 +18,10 @@ template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
 LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDef* adc_handle) :
     hal_adc(adc_handle) {
     hal_adc.start_dma();
+
+    for (uint8_t i = 0; i < number_of_sensors; i++) {
+        sensors_weight[i] = i - (number_of_sensors - 1) / 2.0F;
+    }
 }
 
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
@@ -30,8 +32,8 @@ float LineSensors<number_of_sensors, reading_per_sensor>::get_position() {
     uint8_t active_sensors = 0;
 
     for (uint8_t i = 0; i < number_of_sensors; i++) {
-        if (this->hal_adc.get_adc_reading(i) < LINE_SENSOR_THRESHOLD) {
-            position += SENSORS_WEIGHT[i];
+        if (this->hal_adc.get_adc_reading(i) < line_threshold) {
+            position += this->sensors_weight[i];
             active_sensors++;
         }
     }

@@ -6,8 +6,6 @@
 
 #include "hal/hal_adc.hpp"
 
-static constexpr uint8_t number_of_sensors = 8;
-
 /*****************************************
  * Public Functions Prototypes
  *****************************************/
@@ -32,7 +30,7 @@ class LineSensors {
     private:
         HalAdc<number_of_sensors, reading_per_sensor> hal_adc;
 
-        std::array<uint16_t, number_of_sensors> line_threshold;
+        std::array<float, number_of_sensors> sensors_weight;
 };
 
 #include "../src/proxy/line_sensors.cpp"
