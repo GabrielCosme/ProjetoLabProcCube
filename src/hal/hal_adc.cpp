@@ -3,12 +3,14 @@
 
 #include "hal/hal_adc.hpp"
 #include "adc.h"
+#include "dma.h"
 
 template <uint8_t number_of_channels, uint16_t reading_per_channel>
 bool HalAdc<number_of_channels, reading_per_channel>::reading_done = false;
 
 template <uint8_t number_of_channels, uint16_t reading_per_channel>
 HalAdc<number_of_channels, reading_per_channel>::HalAdc(ADC_HandleTypeDef* adc_handle) {
+    MX_DMA_Init();
     MX_ADC1_Init();
     this->adc_handle = adc_handle;
     HalAdc::reading_done = false;
