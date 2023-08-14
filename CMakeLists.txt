@@ -25,7 +25,7 @@ set(CMAKE_BUILD_TYPE Debug)
 project(blackpill_test C CXX ASM)
 
 # Set the board version to an empty string if your board doesn't have a version
-set(BOARD_VERSION "v2")
+set(BOARD_VERSION "v1")
 
 # Device Configuration
 set(DEVICE_CORTEX F4)
