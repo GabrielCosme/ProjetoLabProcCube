@@ -13,8 +13,8 @@ static constexpr uint16_t extra_long_press_time_ms = 3000;
  * Class Definition
  *****************************************/
 
-Button::Button(GPIO_TypeDef* port, uint16_t pin, bool is_pulldown) :
-    port(port), pin(pin), is_pulldown(is_pulldown), hal_gpio(port, pin) {
+Button::Button(GPIO_TypeDef* port, uint16_t pin, button_pull_resistor_t pull_resistor) :
+    port(port), pin(pin), pull_resistor(pull_resistor), hal_gpio(port, pin) {
 }
 
 void Button::update_state() {
@@ -44,7 +44,7 @@ bool Button::is_falling_edge() const {
 }
 
 bool Button::is_pressed() const {
-    return (this->hal_gpio.read() == this->is_pulldown);
+    return ((int) this->hal_gpio.read() == (int) this->pull_resistor);
 }
 
 button_status_t Button::get_status() {

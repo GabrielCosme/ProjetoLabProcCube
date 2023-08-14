@@ -20,6 +20,11 @@ enum button_status_t {
     BUTTON_EXTRA_LONG_PRESS,
 };
 
+enum button_pull_resistor_t {
+    BUTTON_PULL_UP,
+    BUTTON_PULL_DOWN,
+};
+
 /*****************************************
  * Class Declaration
  *****************************************/
@@ -33,7 +38,7 @@ class Button {
          * @param pin number of the GPIO pin
          * @param is_pulldown true if the button is connected to ground, false otherwise
          */
-        Button(GPIO_TypeDef* port, uint16_t pin, bool is_pulldown);
+        Button(GPIO_TypeDef* port, uint16_t pin, button_pull_resistor_t pull_resistor);
 
         /**
          * @brief Provides the status of the chosen button.
@@ -45,7 +50,7 @@ class Button {
     private:
         GPIO_TypeDef* port;
         uint16_t pin;
-        bool is_pulldown;
+        button_pull_resistor_t pull_resistor;
         HalTimer debounce_timer;
         HalTimer status_timer;
         bool is_debouncing = false;
