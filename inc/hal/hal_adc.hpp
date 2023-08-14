@@ -76,10 +76,10 @@ class HalAdc {
         void average_adc_reading();
 };
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-    (void) (hadc);
+// void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+// (void) (hadc);
 
-    // HalAdc::set_reading_done();
-};
+//// HalAdc::set_reading_done();
+// };
 
 #endif // __HAL_ADC_HPP__
