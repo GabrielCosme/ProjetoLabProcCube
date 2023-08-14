@@ -55,8 +55,8 @@ class ButterworthFilter {
         std::array<float, filter_order + 1> x_array;
         std::array<float, filter_order> y_array;
 
-        std::array<float, filter_order + 1> b_array;
         std::array<float, filter_order> a_array;
+        std::array<float, filter_order + 1> b_array;
 };
 
 #endif // __BUTTERWORTH_SEC_ORDER_HPP__
