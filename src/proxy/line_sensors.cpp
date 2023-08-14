@@ -19,80 +19,24 @@ const float SENSORS_WEIGHT[] = {2.0, 1.0, 0.0, -1.0, -2.0};
  * Public Functions Bodies Definitions
  *****************************************/
 
-LineSensors::LineSensors(ADC_HandleTypeDef* adc_handle, uint8_t number_of_channels, uint16_t reading_per_channel) :
-    hal_adc(adc_handle, number_of_channels, reading_per_channel) {
+template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
+LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDef* adc_handle) :
+    hal_adc(adc_handle) {
     hal_adc.start_dma();
 }
 
-void LineSensors::update_reading() {
-    if (!hal_adc.is_reading_done()) {
-        return;
-    }
-
-    hal_adc.stop_dma();
+template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
+void LineSensors<number_of_sensors, reading_per_sensor>::update_reading() {
+    hal_adc.update_reading();
 }
 
-void clear_adc_reading() {
-    for (uint8_t i = 0; i < LINE_SENSORS_NUMBER_OF_SENSORS; i++) {
-        m_adc_reading[i] = 0;
-    }
-}
-
-void clear_adc_reading() {
-}
-
-void average_adc_reading() {
-}
-
-void line_sensors_init() {
-    HAL_ADC_Start_DMA(&LINE_SENSORS_ADC_HANDLE, m_adc_buffer, LINE_SENSORS_ADC_BUFFER_SIZE);
-}
-
-void line_sensors_update_reading() {
-    if (!m_finished_reading) {
-        return;
-    }
-
-    HAL_ADC_Stop_DMA(&LINE_SENSORS_ADC_HANDLE);
-
-    // Clear old readings
-    for (uint8_t i = 0; i < LINE_SENSORS_NUMBER_OF_SENSORS; i++) {
-        m_adc_reading[i] = 0;
-    }
-
-    // Average readings
-    for (uint8_t i = 0; i < LINE_SENSORS_NUMBER_OF_SENSORS; i++) {
-        for (uint16_t j = 0; j < LINE_SENSORS_NUMBER_OF_READINGS_PER_SENSOR; j++) {
-            m_adc_reading[i] += m_adc_buffer[LINE_SENSORS_NUMBER_OF_SENSORS * j + i];
-        }
-
-        m_adc_reading[i] /= LINE_SENSORS_NUMBER_OF_READINGS_PER_SENSOR;
-    }
-
-    // Clear buffer
-    for (uint8_t i = 0; i < LINE_SENSORS_ADC_BUFFER_SIZE; i++) {
-        m_adc_buffer[i] = 0;
-    }
-
-    m_finished_reading = false;
-
-    HAL_ADC_Start_DMA(&LINE_SENSORS_ADC_HANDLE, m_adc_buffer, LINE_SENSORS_ADC_BUFFER_SIZE);
-}
-
-uint32_t line_sensors_get_reading(uint8_t sensor) {
-    if (sensor >= LINE_SENSORS_NUMBER_OF_SENSORS) {
-        return 0;
-    }
-
-    return m_adc_reading[sensor];
-}
-
-float line_sensors_get_position() {
+template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
+float LineSensors<number_of_sensors, reading_per_sensor>::get_position() {
     float position = 0;
     uint8_t active_sensors = 0;
 
-    for (uint8_t i = 0; i < LINE_SENSORS_NUMBER_OF_SENSORS; i++) {
-        if (m_adc_reading[i] < LINE_SENSOR_THRESHOLD) {
+    for (uint8_t i = 0; i < number_of_sensors; i++) {
+        if (this->hal_adc.get_adc_reading(i) < LINE_SENSOR_THRESHOLD) {
             position += SENSORS_WEIGHT[i];
             active_sensors++;
         }
