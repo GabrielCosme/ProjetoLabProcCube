@@ -57,6 +57,5 @@ int main(void) {
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
     (void) (hadc);
-
-// HalAdc::set_reading_done();
+    HalAdc<adc_num_channels, adc_readings_per_channel>::set_reading_done();
 };
