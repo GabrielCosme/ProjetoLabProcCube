@@ -9,8 +9,8 @@
  * Private Constant Definitions
  *****************************************/
 
-static constexpr linear_setpoint = 50;
-static constexpr linear_decay = 0.5;
+static constexpr uint16_t linear_setpoint = 50;
+static constexpr float linear_decay = 0.5;
 
 /*****************************************
  * Main Function

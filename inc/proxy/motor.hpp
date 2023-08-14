@@ -23,8 +23,8 @@ class Motor {
         void set_speed(uint8_t speed);
 
     private:
-        Hal_Pwm forward_pwm;
-        Hal_Pwm backward_pwm;
+        HalPwm forward_pwm;
+        HalPwm backward_pwm;
 
         float deadzone;
 };

@@ -22,13 +22,13 @@ class HalTimer {
         /**
          * @brief Get elapsed time since last reset
          *
-         * @return uint32_t elapsed time in milliseconds
+         * @return float elapsed time in seconds
          */
-        uint32_t get_time(void);
+        float get_time(void);
 
     private:
         /**
-         * @brief Ticks since microcontroller startup
+         * @brief Ticks since last timer reset
          */
         uint32_t ticks;
 };

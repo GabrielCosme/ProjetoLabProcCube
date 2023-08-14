@@ -64,23 +64,18 @@ class PidController {
          */
         float update(float state, float state_change);
 
-        /**
-         * @brief Output stream operator overloading
-         */
-        friend std::ostream& operator <<(std::ostream& output, const PidController& pid_controller);
-
     private:
-        float kp;            /**< Proportional constant */
-        float ki;            /**< Integrative constant */
-        float kd;            /**< Derivative constant */
-        float setpoint;      /**< Desired state */
-        float saturation;    /**< Maximum response returned by the controller */
-        float max_integral;  /**< Maximum integrative accumulative response */
-        float error_acc;     /**< Accumulated error for i term */
-        float prev_state;    /**< Previous state for d term */
-        float last_response; /**< Last response returned by the controller */
+        float kp;                /**< Proportional constant */
+        float ki;                /**< Integrative constant */
+        float kd;                /**< Derivative constant */
+        float setpoint;          /**< Desired state */
+        float saturation;        /**< Maximum response returned by the controller */
+        float max_integral;      /**< Maximum integrative accumulative response */
+        float error_acc = 0;     /**< Accumulated error for i term */
+        float prev_state = 0;    /**< Previous state for d term */
+        float last_response = 0; /**< Last response returned by the controller */
 
-        HalTimer timer_us;  /**< Timer used to compute the loop time */
+        HalTimer timer;  /**< Timer used to compute the loop time */
 };
 
 #endif // __PID_CONTROLLER_HPP__

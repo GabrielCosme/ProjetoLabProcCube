@@ -3,12 +3,13 @@
 #define __BUTTERWORTH_SEC_ORDER_HPP__
 
 #include <array>
+#include <cstdint>
 
 /*****************************************
  * Public Constants
  *****************************************/
 
-constexpr uint8_t filter_order{2};
+static constexpr uint8_t filter_order{2};
 
 /*****************************************
  * Class Definition
@@ -39,7 +40,7 @@ class ButterworthFilter {
          * @param cutoff_frequency Low-pass cutoff frequency in Hz
          * @param sampling_frequency Sampling frequency in Hz.
          */
-        ButterworthFilter(double cutoff_frequency, double sampling_frequency = 1.0);
+        ButterworthFilter(float cutoff_frequency, float sampling_frequency = 1.0);
 
         /**
          * @brief Produces a new value from measured data
@@ -48,14 +49,14 @@ class ButterworthFilter {
          *
          * @return Filtered value
          */
-        double update(double x0);
+        float update(float x0);
 
     private:
-        std::array<double, filter_order + 1> x_array;
-        std::array<double, filter_order> y_array;
+        std::array<float, filter_order + 1> x_array;
+        std::array<float, filter_order> y_array;
 
-        std::array<double, filter_order + 1> b_array;
-        std::array<double, filter_order> a_array;
+        std::array<float, filter_order + 1> b_array;
+        std::array<float, filter_order> a_array;
 };
 
 #endif // __BUTTERWORTH_SEC_ORDER_HPP__

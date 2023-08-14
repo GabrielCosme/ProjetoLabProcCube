@@ -1,11 +1,13 @@
-#include "proxy/motors.hpp"
+#include <cmath>
+
+#include "proxy/motor.hpp"
 #include "hal/hal_pwm.hpp"
 
 Motor::Motor(TIM_HandleTypeDef* htim, float deadzone) :
     forward_pwm(htim, MOTOR_FORWARD_TIMER_CHANNEL), backward_pwm(htim, MOTOR_BACKWARD_TIMER_CHANNEL),
     deadzone(deadzone) {
-    forward_pwm.start_start();
-    backward_pwm.start_start();
+    forward_pwm.start();
+    backward_pwm.start();
 
     forward_pwm.set_compare(0);
     backward_pwm.set_compare(0);

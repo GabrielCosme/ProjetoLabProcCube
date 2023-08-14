@@ -6,10 +6,8 @@
  * Class Methods Bodies Definitions
  *****************************************/
 
-PidController::PidController(float kp, float ki, float kd, float setpoint, float freq, float saturation,
-                             float max_integral) :
-    kp{kp}, ki{ki}, kd{kd}, setpoint{setpoint}, freq{freq},
-    saturation{saturation}, max_integral{max_integral}, error_acc{0.0}, prev_error{0.0} {
+PidController::PidController(float kp, float ki, float kd, float setpoint, float saturation, float max_integral) :
+    kp{kp}, ki{ki}, kd{kd}, setpoint{setpoint}, saturation{saturation}, max_integral{max_integral} {
 }
 
 void PidController::set_setpoint(float setpoint) {
@@ -31,21 +29,21 @@ void PidController::reset() {
 }
 
 float PidController::update(float state) {
-    uint32_t loop_time_us = this->timer_us.get_time();
+    float loop_time = this->timer.get_time();
 
-    if (loop_time_us == 0) {
+    if (loop_time == 0) {
         return this->last_response;
     }
 
-    float state_change = (state - this->prev_state) / US_TO_S(loop_time_us);
+    float state_change = (state - this->prev_state) / loop_time;
 
     return this->update(state, state_change);
 }
 
 float PidController::update(float state, float state_change) {
-    uint32_t loop_time_us = this->timer_us.get_time();
+    float loop_time = this->timer.get_time();
 
-    if (loop_time_us == 0) {
+    if (loop_time == 0) {
         return this->last_response;
     }
 
@@ -55,8 +53,8 @@ float PidController::update(float state, float state_change) {
     float response = this->kp * (error + this->ki * this->error_acc + this->kd * state_change);
 
     if (this->saturation < 0 or std::abs(response) < this->saturation or
-        this->error_acc != 0 and std::signbit(this->error_acc) != std::signbit(error)) {
-        this->error_acc += error * US_TO_S(loop_time_us);
+        (this->error_acc != 0 and std::signbit(this->error_acc) != std::signbit(error))) {
+        this->error_acc += error * loop_time;
     }
 
     if (this->max_integral >= 0 and this->ki > 0) {
@@ -71,7 +69,7 @@ float PidController::update(float state, float state_change) {
     }
 
     this->last_response = response;
-    this->timer_us.reset();
+    this->timer.reset();
 
     return response;
 }
