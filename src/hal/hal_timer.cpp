@@ -9,6 +9,6 @@ void HalTimer::reset(void) {
     this->ticks = HAL_GetTick();
 }
 
-float HalTimer::get_time(void) {
+float HalTimer::get_time(void) const {
     return (HAL_GetTick() - this->ticks) / 1000.0F;
 }

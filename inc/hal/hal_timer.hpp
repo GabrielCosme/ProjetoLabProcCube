@@ -24,7 +24,7 @@ class HalTimer {
          *
          * @return float elapsed time in seconds
          */
-        float get_time(void);
+        float get_time(void) const;
 
     private:
         /**

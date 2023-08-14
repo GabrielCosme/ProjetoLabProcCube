@@ -5,9 +5,9 @@
  * Private Constants
  *****************************************/
 
-static constexpr uint16_t debounce_delay_ms = 10;
-static constexpr uint16_t long_press_time_ms = 900;
-static constexpr uint16_t extra_long_press_time_ms = 3000;
+static constexpr float debounce_delay = 0.01;
+static constexpr float long_press_time = 0.9;
+static constexpr float extra_long_press_time = 3.0;
 
 /*****************************************
  * Class Definition
@@ -23,7 +23,7 @@ void Button::update_state() {
     if ((this->current_state != raw_reading) && !this->is_debouncing) {
         this->is_debouncing = true;
         this->debounce_timer.reset();
-    } else if ((this->debounce_timer.get_time() < debounce_delay_ms) && this->is_debouncing) {
+    } else if ((this->debounce_timer.get_time() < debounce_delay) && this->is_debouncing) {
         if (this->current_state == raw_reading) {
             this->is_debouncing = false;
             return;
@@ -53,9 +53,9 @@ button_status_t Button::get_status() {
     if (this->is_rising_edge()) {
         this->status_timer.reset();
     } else if (this->is_falling_edge()) {
-        if (this->status_timer.get_time() > extra_long_press_time_ms) {
+        if (this->status_timer.get_time() > extra_long_press_time) {
             return BUTTON_EXTRA_LONG_PRESS;
-        } else if (this->status_timer.get_time() > long_press_time_ms) {
+        } else if (this->status_timer.get_time() > long_press_time) {
             return BUTTON_LONG_PRESS;
         } else {
             return BUTTON_SHORT_PRESS;

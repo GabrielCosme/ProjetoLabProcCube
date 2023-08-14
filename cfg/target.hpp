@@ -18,8 +18,8 @@ constexpr uint16_t led_pin = GPIO_PIN_15;
 TIM_HandleTypeDef* left_motor_timer_handle = &htim2;
 TIM_HandleTypeDef* right_motor_timer_handle = &htim1;
 
-constexpr uint16_t motor_backward_timer_channel = TIM_CHANNEL_2;
 constexpr uint16_t motor_forward_timer_channel = TIM_CHANNEL_1;
+constexpr uint16_t motor_backward_timer_channel = TIM_CHANNEL_2;
 
 ADC_HandleTypeDef* line_sensor_adc_handle = &hadc1;
 constexpr uint8_t adc_num_channels = 8;

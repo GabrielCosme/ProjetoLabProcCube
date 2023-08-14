@@ -57,7 +57,7 @@ class Button {
         bool previous_state = false;
         bool current_state = false;
 
-        HalGpio hal_gpio;
+        const HalGpio hal_gpio;
 
         /**
          * @brief Reads the button state

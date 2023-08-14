@@ -21,7 +21,7 @@
             "request": "launch",
             "servertype": "jlink",
             "cwd": "${CMAKE_CURRENT_SOURCE_DIR}",
-            "gdbPath": "arm-none-eabi-gdb",
+            "gdbPath": "gdb-multiarch",
             "executable": "build/${DEBUG_FILE_NAME}.elf",
             "name": "Cortex Debug (J-Link)",
             "device": "${DEVICE}",
