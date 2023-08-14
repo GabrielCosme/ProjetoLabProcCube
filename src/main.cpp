@@ -15,11 +15,11 @@
  *****************************************/
 
 int main(void) {
-    Button button(button_gpio_port, button_pin);
+    Button button(button_gpio_port, button_pin, button_pull_resistor);
 
     HalGpio led(led_gpio_port, led_pin);
 
-    LineSensors line_sensors(line_sensor_adc_handle, adc_num_channels, adc_readings_per_channel);
+    LineSensors<adc_num_channels, adc_readings_per_channel> line_sensors(line_sensor_adc_handle);
 
     Locomotion locomotion(left_motor_timer_handle, right_motor_timer_handle, motor_forward_timer_channel,
                           motor_backward_timer_channel, left_deadzone, right_deadzone);
