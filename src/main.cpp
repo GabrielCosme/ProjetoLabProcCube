@@ -54,3 +54,9 @@ int main(void) {
         locomotion.set_speeds(linear_command, angular_command);
     }
 }
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+    (void) (hadc);
+
+// HalAdc::set_reading_done();
+};
