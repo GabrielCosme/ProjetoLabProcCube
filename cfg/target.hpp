@@ -22,7 +22,7 @@ constexpr uint16_t motor_backward_timer_channel = TIM_CHANNEL_2;
 constexpr uint16_t motor_forward_timer_channel = TIM_CHANNEL_1;
 
 ADC_HandleTypeDef* line_sensor_adc_handle = &hadc1;
-constexpr uint16_t adc_num_channels = 8;
+constexpr uint8_t adc_num_channels = 8;
 constexpr uint16_t adc_readings_per_channel = 50;
 
 #endif // __TARGET_HPP__
