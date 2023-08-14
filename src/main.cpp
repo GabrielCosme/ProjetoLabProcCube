@@ -1,3 +1,5 @@
+#include "mcu.hpp"
+
 #include "constants.hpp"
 #include "target.hpp"
 
@@ -15,6 +17,8 @@
  *****************************************/
 
 int main(void) {
+    mcu_init();
+
     Button button(button_gpio_port, button_pin, button_pull_resistor);
 
     HalGpio led(led_gpio_port, led_pin);
@@ -36,6 +40,7 @@ int main(void) {
     for (;;) {
         if (button.get_status() != BUTTON_NO_PRESS) {
             stopped = !stopped;
+            led.toggle();
         }
 
         if (stopped) {

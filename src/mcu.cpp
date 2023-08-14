@@ -1,15 +1,5 @@
-/**
- * @file mcu.c
- *
- * @brief MCU related
- */
-
-#include <stdint.h>
-
-#include "mcu.h"
-
-#include "gpio.h"
-#include "main.h"
+#include "mcu.hpp"
+#include "stm32f4xx_hal.h"
 
 /*****************************************
  * Public Function Body Definitions
@@ -19,8 +9,6 @@ void mcu_init(void) {
     HAL_Init();
 
     SystemClock_Config();
-
-    MX_GPIO_Init();
 }
 
 void mcu_sleep(uint32_t ms) {
