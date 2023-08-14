@@ -8,15 +8,9 @@
  * Private Constants
  *****************************************/
 
-#define LINE_SENSOR_THRESHOLD 1000
+constexpr uint16_t LINE_SENSOR_THRESHOLD = 1000;
 
-#define LINE_SENSORS_NUMBER_OF_SENSORS 5
-#define LINE_SENSORS_NUMBER_OF_READINGS_PER_SENSOR 50
-
-#define LINE_SENSORS_ADC_HANDLE hadc2
-#define LINE_SENSORS_ADC_BUFFER_SIZE (LINE_SENSORS_NUMBER_OF_SENSORS * LINE_SENSORS_NUMBER_OF_READINGS_PER_SENSOR)
-
-const float SENSORS_WEIGHT[] = {2.0, 1.0, 0.0, -1.0, -2.0};
+constexpr float SENSORS_WEIGHT[] = {5.0, 4.0, 3.0, 2.0, 1.0, -1.0, -2.0, -3.0, -4.0, -5.0};
 
 /*****************************************
  * Public Functions Bodies Definitions
