@@ -14,7 +14,7 @@ static constexpr uint8_t number_of_sensors = 8;
 
 class LineSensors {
     public:
-        LineSensors(HalAdc hal_adc);
+        LineSensors();
 
         /**
          * @brief Updates the line sensors readings.

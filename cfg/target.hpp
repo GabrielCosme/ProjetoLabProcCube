@@ -1,15 +1,26 @@
 #ifndef __TARGET_HPP__
 #define __TARGET_HPP__
 
-#define MOTOR_LEFT_TIM_HANDLE (htim2)
-#define MOTOR_RIGHT_TIM_HANDLE (htim1)
+#include <cstdint>
 
-#define MOTORS_TIM_COUNTER_PERIOD 1000
+using button_gpio_port = BUTTON_GPIO_Port;
+using button_pin = BUTTON_Pin;
 
-#define MOTOR_BACKWARD_TIMER_CHANNEL TIM_CHANNEL_2
-#define MOTOR_FORWARD_TIMER_CHANNEL TIM_CHANNEL_1
+using led_gpio_port = LED_GPIO_Port;
+using led_pin = LED_Pin;
 
-#define MAX_MOTORS_SPEED 100
-#define MIN_MOTORS_SPEED -MAX_MOTORS_SPEED
+using left_motor_timer_handle = htim2;
+using right_motor_timer_handle = htim1;
+
+using motor_backward_timer_channel = TIM_CHANNEL_2;
+using motor_forward_timer_channel = TIM_CHANNEL_1;
+
+constexpr uint16_t motors_timer_counter_period = 1000;
+constexpr int16_t max_motors_speed = 100;
+constexpr int16_t min_motors_speed = -max_motors_speed;
+
+using line_sensor_adc_handle = hadc1;
+constexpr uint16_t adc_num_channels = 8;
+constexpr uint16_t adc_readings_per_channel = 50;
 
 #endif // __TARGET_HPP__

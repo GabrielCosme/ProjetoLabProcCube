@@ -1,7 +1,7 @@
 #include "proxy/locomotion.hpp"
 
 Locomotion::Locomotion() :
-    left_motor(htim2, left_deadzone), right_motor(htim1, right_deadzone) {
+    left_motor(left_motor_timer_handle, left_deadzone), right_motor(right_motor_timer_handle, right_deadzone) {
 }
 
 void Locomotion::set_speeds(int16_t linear, int16_t angular) {

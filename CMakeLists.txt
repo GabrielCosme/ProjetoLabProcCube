@@ -153,6 +153,7 @@ list(REMOVE_ITEM CUBE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cube/Src/system_${DEVI
 # Add here the headers to be included in all files
 set(FORCED_INCLUDE_HEADERS
   cfg/target.hpp
+  cfg/constants.hpp
 )
 
 targets_generate_format_target(C_SOURCES C_HEADERS TESTS_SOURCES TESTS_HEADERS TESTS_BIN)

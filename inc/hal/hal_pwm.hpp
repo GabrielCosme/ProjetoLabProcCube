@@ -16,13 +16,21 @@ class HalPwm {
         /**
          * @brief Construct a new Hal Pwm object
          *
-         * @param htim
-         * @param channel
+         * @param htim Timer handle
+         * @param channel Timer channel
          */
         HalPwm(TIM_HandleTypeDef* htim, uint32_t channel);
 
+        /**
+         * @brief Start the PWM
+         */
         void start(void);
 
+        /**
+         * @brief Set the PWM duty cycle
+         *
+         * @param compare value to set the duty cycle
+         */
         void set_compare(uint32_t compare);
 
     private:

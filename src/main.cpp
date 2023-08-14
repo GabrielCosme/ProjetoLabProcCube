@@ -6,28 +6,23 @@
 #include "pid_controller.hpp"
 
 /*****************************************
- * Private Constant Definitions
- *****************************************/
-
-static constexpr uint16_t linear_setpoint = 50;
-static constexpr float linear_decay = 0.5;
-
-/*****************************************
  * Main Function
  *****************************************/
 
 int main(void) {
     mcu_init();
 
-    Button button(BUTTON_GPIO_Port, BUTTON_Pin);
+    Button button(button_gpio_port, button_pin);
+
+    HalGpio led(led_gpio_port, led_pin);
 
     LineSensors line_sensors();
 
     Locomotion locomotion();
 
-    PidController pid_controller(0.5, 0.5, 0.5);
+    PidController pid_controller(kp, ki, kd, saturation, max_integral);
 
-    ButterworthFilter filter(0.5);
+    ButterworthFilter filter(filter_frequency);
 
     bool stopped = true;
     float angular_position = 0, line_measure = 0;
@@ -50,7 +45,7 @@ int main(void) {
         angular_position = filter.update(line_measure);
         angular_command = pid_controller.update(angular_position);
 
-        linear_command = Locomotion::linear_decay(angular_position, linear_decay) * linear_setpoint;
+        linear_command = Locomotion::linear_decay(angular_position, linear_decay) * linear_base_speed;
 
         locomotion.set_speeds(linear_command, angular_command);
     }

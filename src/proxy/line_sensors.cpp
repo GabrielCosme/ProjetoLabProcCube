@@ -19,7 +19,7 @@ const float SENSORS_WEIGHT[] = {2.0, 1.0, 0.0, -1.0, -2.0};
  * Public Functions Bodies Definitions
  *****************************************/
 
-LineSensors::LineSensors(HalAdc hal_adc) : hal_adc(hal_adc) {
+LineSensors::LineSensors() : hal_adc(line_sensor_adc_handle, adc_num_channels, adc_readings_per_channel) {
     hal_adc.start_dma();
 }
 
