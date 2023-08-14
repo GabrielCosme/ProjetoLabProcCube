@@ -32,6 +32,8 @@ int main(void) {
 
     ButterworthFilter filter(filter_frequency);
 
+    led.write(GPIO_PIN_SET);
+
     bool stopped = true;
     float angular_position = 0, line_measure = 0;
     uint16_t angular_command = 0;
