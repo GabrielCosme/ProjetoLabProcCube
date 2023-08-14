@@ -9,8 +9,17 @@ class Locomotion {
     public:
         /**
          * @brief Construct a new Locomotion object
+         *
+         * @param left_motor_timer_handle pointer to the left motor timer handle
+         * @param right_motor_timer_handle pointer to the right motor timer handle
+         * @param forward_timer_channel channel of the forward pwm
+         * @param backward_timer_channel channel of the backward pwm
+         * @param left_deadzone deadzone of the left motor
+         * @param right_deadzone deadzone of the right motor
          */
-        Locomotion();
+        Locomotion(TIM_HandleTypeDef* left_motor_timer_handle, TIM_HandleTypeDef* right_motor_timer_handle,
+                   uint32_t forward_timer_channel, uint32_t backward_timer_channel, float left_deadzone = 0,
+                   float right_deadzone = 0);
 
         /**
          * @brief Set the speeds of the motors
@@ -18,7 +27,7 @@ class Locomotion {
          * @param linear Linear speed
          * @param angular Angular speed
          */
-        void set_speeds(int8_t linear, int8_t angular);
+        void set_speeds(int16_t linear, int16_t angular);
 
         /**
          * @brief Compute the linear decay of the angular error
@@ -32,14 +41,6 @@ class Locomotion {
     private:
         Motor left_motor;
         Motor right_motor;
-
-        /**
-         * @brief Saturate the command to the motors
-         *
-         * @param saturated_command command to check if saturated
-         * @param other_command command to saturate
-         */
-        static void saturate_command(int16_t& saturated_command, int16_t& other_command);
 };
 
 #endif // __LOCOMOTION_HPP__

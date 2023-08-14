@@ -2,9 +2,13 @@
 
 #include "proxy/motor.hpp"
 #include "hal/hal_pwm.hpp"
+#include "utils.hpp"
 
-Motor::Motor(TIM_HandleTypeDef* htim, float deadzone) :
-    forward_pwm(htim, MOTOR_FORWARD_TIMER_CHANNEL), backward_pwm(htim, MOTOR_BACKWARD_TIMER_CHANNEL),
+static constexpr uint16_t motors_timer_counter_period = 1000;
+static constexpr float max_stopped_command = 0.02;
+
+Motor::Motor(TIM_HandleTypeDef* htim, uint32_t forward_timer_channel, uint32_t backward_timer_channel, float deadzone) :
+    forward_pwm(htim, forward_timer_channel), backward_pwm(htim, backward_timer_channel),
     deadzone(deadzone) {
     forward_pwm.start();
     backward_pwm.start();
@@ -15,13 +19,13 @@ Motor::Motor(TIM_HandleTypeDef* htim, float deadzone) :
 
 void Motor::set_speed(uint8_t speed) {
     bool command_sign = std::signbit(speed);
-    int32_t command = std::abs(constrain(speed, MIN_MOTORS_SPEED, MAX_MOTORS_SPEED));
+    int32_t command = std::abs(constrain(speed, min_motors_speed, max_motors_speed));
 
-    if (command <= this->max_stopped_command * MAX_MOTORS_SPEED) {
+    if (command <= max_stopped_command * max_motors_speed) {
         command = 0;
     } else {
-        command =
-            map(command, 0, MAX_PWM_COMMAND, this->deadzone * MOTORS_TIM_COUNTER_PERIOD, MOTORS_TIM_COUNTER_PERIOD);
+        command = map(command, 0, max_motors_speed,
+                      this->deadzone * motors_timer_counter_period, motors_timer_counter_period);
     }
 
     if (command_sign) {

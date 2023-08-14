@@ -1,24 +1,28 @@
+#include "constants.hpp"
+#include "target.hpp"
+
 #include "butterworth_filter.hpp"
-#include "mcu.h"
+#include "pid_controller.hpp"
+
+#include "hal/hal_gpio.hpp"
+
 #include "proxy/button.hpp"
 #include "proxy/line_sensors.hpp"
 #include "proxy/locomotion.hpp"
-#include "pid_controller.hpp"
 
 /*****************************************
  * Main Function
  *****************************************/
 
 int main(void) {
-    mcu_init();
-
     Button button(button_gpio_port, button_pin);
 
     HalGpio led(led_gpio_port, led_pin);
 
-    LineSensors line_sensors();
+    LineSensors line_sensors(line_sensor_adc_handle, adc_num_channels, adc_readings_per_channel);
 
-    Locomotion locomotion();
+    Locomotion locomotion(left_motor_timer_handle, right_motor_timer_handle, motor_forward_timer_channel,
+                          motor_backward_timer_channel, left_deadzone, right_deadzone);
 
     PidController pid_controller(kp, ki, kd, saturation, max_integral);
 

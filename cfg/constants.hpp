@@ -5,7 +5,6 @@
 
 constexpr float left_deadzone = 0.05;
 constexpr float right_deadzone = 0.05;
-constexpr float max_stopped_command = 0.02;
 
 constexpr float kp = 1.0;
 constexpr float ki = 0.0;

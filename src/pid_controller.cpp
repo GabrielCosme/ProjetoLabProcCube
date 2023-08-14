@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "pid_controller.hpp"
+#include "utils.hpp"
 
 /*****************************************
  * Class Methods Bodies Definitions
@@ -58,14 +59,14 @@ float PidController::update(float state, float state_change) {
     }
 
     if (this->max_integral >= 0 and this->ki > 0) {
-        this->error_acc = thundervolt_core::constrain(this->error_acc, -this->max_integral / (this->kp * this->ki),
-                                                      this->max_integral / (this->kp * this->ki));
+        this->error_acc = constrain(this->error_acc, -this->max_integral / (this->kp * this->ki),
+                                    this->max_integral / (this->kp * this->ki));
     }
 
     response = this->kp * (error + this->ki * this->error_acc + this->kd * state_change);
 
     if (this->saturation >= 0 and std::abs(response) >= this->saturation) {
-        response = thundervolt_core::constrain(response, -this->saturation, this->saturation);
+        response = constrain(response, -this->saturation, this->saturation);
     }
 
     this->last_response = response;

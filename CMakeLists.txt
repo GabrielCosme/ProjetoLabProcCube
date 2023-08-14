@@ -125,6 +125,7 @@ set(LIB_INCLUDE_DIRECTORIES
 ###############################################################################
 
 set(C_INCLUDE_DIRECTORIES
+    ./cfg
     ./inc
     ./cube/Inc
 )
@@ -138,7 +139,7 @@ set(TEST_INCLUDE_DIRECTORIES
 ###############################################################################
 
 file(GLOB_RECURSE C_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
-file(GLOB_RECURSE C_HEADERS CONFIGURE_DEPENDS "inc/*.hpp")
+file(GLOB_RECURSE C_HEADERS CONFIGURE_DEPENDS "inc/*.hpp" "cfg/*.hpp")
 
 file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS "tests/src/*.cpp")
 file(GLOB_RECURSE TESTS_HEADERS CONFIGURE_DEPENDS "tests/inc/*.hpp")
@@ -152,8 +153,6 @@ list(REMOVE_ITEM CUBE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cube/Src/system_${DEVI
 
 # Add here the headers to be included in all files
 set(FORCED_INCLUDE_HEADERS
-  cfg/target.hpp
-  cfg/constants.hpp
 )
 
 targets_generate_format_target(C_SOURCES C_HEADERS TESTS_SOURCES TESTS_HEADERS TESTS_BIN)
