@@ -29,12 +29,9 @@ LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDe
 }
 
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
-void LineSensors<number_of_sensors, reading_per_sensor>::update_reading() {
-    hal_adc.update_reading();
-}
-
-template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
 float LineSensors<number_of_sensors, reading_per_sensor>::get_position() {
+    hal_adc.update_reading();
+
     float position = 0;
     uint8_t active_sensors = 0;
 

@@ -23,11 +23,6 @@ class LineSensors {
         LineSensors(ADC_HandleTypeDef* adc_handle);
 
         /**
-         * @brief Updates the line sensors readings.
-         */
-        void update_reading();
-
-        /**
          * @brief Gets the line position.
          *
          * @return Position of the line.
