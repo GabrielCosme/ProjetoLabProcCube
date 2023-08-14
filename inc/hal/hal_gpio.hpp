@@ -31,7 +31,12 @@ class HalGpio {
          *
          * @param pin_state state of the GPIO pin
          */
-        void write(GPIO_PinState pin_state) const;
+        void write(GPIO_PinState pin_state);
+
+        /**
+         * @brief Toggle the GPIO pin
+         */
+        void toggle(void);
 
     private:
         /**

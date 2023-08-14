@@ -11,6 +11,10 @@ bool HalGpio::read(void) const {
     return HAL_GPIO_ReadPin(this->gpio_port, this->gpio_pin);
 }
 
-void HalGpio::write(GPIO_PinState pin_state) const {
+void HalGpio::write(GPIO_PinState pin_state) {
     HAL_GPIO_WritePin(this->gpio_port, this->gpio_pin, pin_state);
+}
+
+void HalGpio::toggle(void) {
+    HAL_GPIO_TogglePin(this->gpio_port, this->gpio_pin);
 }
