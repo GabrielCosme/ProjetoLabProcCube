@@ -8,7 +8,7 @@
  * Private Constants
  *****************************************/
 
-constexpr uint16_t line_threshold = 3500;
+constexpr uint16_t line_threshold = 3900;
 
 /*****************************************
  * Public Functions Bodies Definitions

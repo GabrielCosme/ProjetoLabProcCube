@@ -28,7 +28,7 @@ int main(void) {
     Locomotion locomotion(left_motor_timer_handle, right_motor_timer_handle, motor_forward_timer_channel,
                           motor_backward_timer_channel, left_deadzone, right_deadzone);
 
-    PidController pid_controller(kp, ki, kd, saturation, max_integral);
+    PidController pid_controller(kp, ki, kd, 0.0, saturation, max_integral);
 
     ButterworthFilter filter(filter_frequency);
 
@@ -36,8 +36,8 @@ int main(void) {
 
     bool stopped = true;
     float angular_position = 0, line_measure = 0;
-    uint16_t angular_command = 0;
-    uint16_t linear_command = 0;
+    int16_t angular_command = 0;
+    int16_t linear_command = 0;
 
     for (;;) {
         if (button.get_status() != BUTTON_NO_PRESS) {
