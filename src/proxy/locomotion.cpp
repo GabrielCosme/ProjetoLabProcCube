@@ -24,7 +24,7 @@ void Locomotion::set_speeds(int16_t linear, int16_t angular) {
     }
 
     this->left_motor.set_speed(left_command);
-    this->left_motor.set_speed(right_command);
+    this->right_motor.set_speed(right_command);
 }
 
 float Locomotion::linear_decay(float angular_error, float dependency) {

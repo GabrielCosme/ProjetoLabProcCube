@@ -10,6 +10,12 @@ static constexpr float max_stopped_command = 0.02;
 Motor::Motor(TIM_HandleTypeDef* htim, uint32_t forward_timer_channel, uint32_t backward_timer_channel, float deadzone) :
     forward_pwm(htim, forward_timer_channel), backward_pwm(htim, backward_timer_channel),
     deadzone(deadzone) {
+    if (htim == &htim1) {
+        MX_TIM1_Init();
+    } else if (htim == &htim2) {
+        MX_TIM2_Init();
+    }
+
     forward_pwm.start();
     backward_pwm.start();
 
@@ -29,10 +35,10 @@ void Motor::set_speed(uint8_t speed) {
     }
 
     if (command_sign) {
-        forward_pwm.set_compare(command);
-        backward_pwm.set_compare(0);
-    } else {
         forward_pwm.set_compare(0);
         backward_pwm.set_compare(command);
+    } else {
+        forward_pwm.set_compare(command);
+        backward_pwm.set_compare(0);
     }
 }

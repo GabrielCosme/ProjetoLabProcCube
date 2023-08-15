@@ -14,7 +14,7 @@ constexpr float max_integral = 0.0;
 
 constexpr float filter_frequency = 0.5;
 
-constexpr uint16_t linear_base_speed = 50;
+constexpr uint16_t linear_base_speed = 20;
 constexpr float linear_decay = 1.0;
 
 #endif // __CONSTANTS_HPP__
