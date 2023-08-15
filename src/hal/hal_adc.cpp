@@ -25,6 +25,7 @@ void HalAdc<number_of_channels, reading_per_channel>::update_reading(void) {
         return;
     }
 
+    HalAdc::reading_done = false;
     HAL_ADC_Stop_DMA(this->adc_handle);
     this->adc_reading.fill(0);
 
