@@ -1,21 +1,19 @@
 #ifndef __HAL_PWM_HPP__
 #define __HAL_PWM_HPP__
 
-#include "tim.h"
+#include <libopencm3/stm32/timer.h>
 
-/*****************************************
- * Class Declaration
- *****************************************/
+struct PwmConfig {
+};
 
 class HalPwm {
     public:
         /**
          * @brief Construct a new Hal Pwm object
          *
-         * @param timer_handle Timer handle
-         * @param channel Timer channel
+         * @param pwm_config configuration for the pwm instance
          */
-        HalPwm(TIM_HandleTypeDef* timer_handle, uint32_t channel);
+        HalPwm(const PwmConfig& pwm_config);
 
         /**
          * @brief Start the PWM
@@ -30,11 +28,6 @@ class HalPwm {
         void set_compare(uint32_t compare);
 
     private:
-        /**
-         * @brief pointer to the timer handle
-         */
-        TIM_HandleTypeDef* timer_handle;
-
         /**
          * @brief Timer channel
          */

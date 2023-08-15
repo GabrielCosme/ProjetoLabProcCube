@@ -3,10 +3,6 @@
 
 #include <cstdint>
 
-/*****************************************
- * Class Declaration
- *****************************************/
-
 class HalTimer {
     public:
         /**

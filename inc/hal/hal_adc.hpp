@@ -6,10 +6,6 @@
 
 #include "adc.h"
 
-/*****************************************
- * Class Declaration
- *****************************************/
-
 template <uint8_t number_of_channels, uint16_t reading_per_channel>
 class HalAdc {
     public:

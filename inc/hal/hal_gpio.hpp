@@ -3,20 +3,24 @@
 
 #include <cstdint>
 #include <libopencm3/stm32/gpio.h>
+#include <libopencm3/stm32/rcc.h>
 
-/*****************************************
- * Class Declaration
- *****************************************/
+struct GpioConfig {
+    uint32_t         port;
+    uint8_t          mode;
+    uint8_t          pull_up_down;
+    uint16_t         pin;
+    rcc_periph_clken rcc_clock;
+};
 
 class HalGpio {
     public:
         /**
          * @brief Construct a new Hal GPIO object
          *
-         * @param gpio_port pointer to the GPIO port
-         * @param gpio_pin number of the GPIO pin
+         * @param gpio_config configuration of the gpio instance
          */
-        HalGpio(uint32_t gpio_port, uint8_t gpio_mode, uint8_t pull_up_down, uint16_t gpio_pin);
+        HalGpio(const GpioConfig& gpio_config);
 
         /**
          * @brief Read the GPIO pin
@@ -41,12 +45,12 @@ class HalGpio {
         /**
          * @brief Pointer to the GPIO port
          */
-        uint32_t gpio_port;
+        uint32_t port;
 
         /**
          * @brief Number of the GPIO pin
          */
-        uint16_t gpio_pin;
+        uint16_t pin;
 };
 
 #endif // __HAL_GPIO_HPP__

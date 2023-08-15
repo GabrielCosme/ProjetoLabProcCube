@@ -25,10 +25,6 @@ enum button_pull_resistor_t {
     BUTTON_PULL_DOWN,
 };
 
-/*****************************************
- * Class Declaration
- *****************************************/
-
 class Button {
     public:
         /**
