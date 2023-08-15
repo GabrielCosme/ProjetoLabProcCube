@@ -1,12 +1,8 @@
 #include "hal/hal_pwm.hpp"
 
 HalPwm::HalPwm(TIM_HandleTypeDef* htim, uint32_t channel) {
-    if (htim->Instance == TIM1) {
-        MX_TIM1_Init();
-    } else if (htim->Instance == TIM2) {
-        MX_TIM2_Init();
-    }
-
+    MX_TIM1_Init();
+    MX_TIM2_Init();
     this->tim_handle = htim;
     this->channel = channel;
 }
