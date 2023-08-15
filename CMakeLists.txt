@@ -113,11 +113,15 @@ set(DEPENDENCIES
 set(LIB_SOURCES
     # lib/lib_name/src/file1.c
     # lib/lib_name/src/file2.c
+    lib/libopencm3/lib/stm32/common/rcc_common_all.c
+    lib/libopencm3/lib/stm32/common/gpio_common_all.c
+    lib/libopencm3/lib/stm32/common/gpio_common_f0234.c
+    lib/libopencm3/lib/stm32/f4/rcc.c
 )
 
 # Add libraries include directories here
 set(LIB_INCLUDE_DIRECTORIES
-    # lib/lib_name/inc/
+    lib/libopencm3/include
 )
 
 ###############################################################################
