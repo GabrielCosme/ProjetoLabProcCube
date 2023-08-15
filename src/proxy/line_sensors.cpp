@@ -4,6 +4,9 @@
 #include "hal/hal_adc.hpp"
 #include "proxy/line_sensors.hpp"
 
+constexpr uint32_t default_white_value = 4000;
+constexpr uint32_t default_black_value = 3850;
+
 /*****************************************
  * Public Functions Bodies Definitions
  *****************************************/
@@ -15,11 +18,9 @@ LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDe
         sensors_weight[i] = i - (number_of_sensors - 1) / 2.0F;
     }
 
-    white_readings.fill(4000);
-
-    black_readings.fill(3850);
-
-    line_thresholds.fill(3700);
+    white_readings.fill(default_white_value);
+    black_readings.fill(default_black_value);
+    line_thresholds.fill((default_white_value + default_black_value) / 2);
 }
 
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>

@@ -29,9 +29,19 @@ class Motor {
         void set_speed(int16_t speed);
 
     private:
+        /**
+         * @brief pwm to control the motor in forward direction
+         */
         HalPwm forward_pwm;
+
+        /**
+         * @brief pwm to control the motor in backward direction
+         */
         HalPwm backward_pwm;
 
+        /**
+         * @brief minimum value of the pwm to start the motor
+         */
         float deadzone;
 };
 

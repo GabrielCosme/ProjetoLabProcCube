@@ -38,14 +38,29 @@ class LineSensors {
         void calibrate_black();
 
     private:
+        /**
+         * @brief ADC used to read the line sensors
+         */
         HalAdc<number_of_sensors, reading_per_sensor> hal_adc;
 
+        /**
+         * @brief weight of each sensor to calculate the line position
+         */
         std::array<float, number_of_sensors> sensors_weight;
 
+        /**
+         * @brief sensors reading of the white line
+         */
         std::array<uint32_t, number_of_sensors> white_readings;
 
+        /**
+         * @brief sensors reading of the black background
+         */
         std::array<uint32_t, number_of_sensors> black_readings;
 
+        /**
+         * @brief thresholds to determine if the sensor is on the line or not
+         */
         std::array<uint32_t, number_of_sensors> line_thresholds;
 };
 

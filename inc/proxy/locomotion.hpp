@@ -39,7 +39,14 @@ class Locomotion {
         static float linear_decay(float angular_error, float dependency);
 
     private:
+        /**
+         * @brief Left motor instance
+         */
         Motor left_motor;
+
+        /**
+         * @brief Right motor instance
+         */
         Motor right_motor;
 };
 
