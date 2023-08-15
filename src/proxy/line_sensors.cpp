@@ -17,9 +17,9 @@ LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDe
 
     white_readings.fill(4000);
 
-    black_readings.fill(3900);
+    black_readings.fill(3850);
 
-    line_thresholds.fill(3800);
+    line_thresholds.fill(3700);
 }
 
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
