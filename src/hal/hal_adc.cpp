@@ -37,10 +37,6 @@ void HalAdc<number_of_channels, reading_per_channel>::update_reading(void) {
         this->adc_reading[i] /= reading_per_channel;
     }
 
-    for (uint16_t i = 0; i < this->buffer_size; i++) {
-        this->buffer[i] = 0;
-    }
-
     HAL_ADC_Start_DMA(this->adc_handle, this->buffer, this->buffer_size);
 }
 
