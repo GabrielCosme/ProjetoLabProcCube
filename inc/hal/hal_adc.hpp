@@ -26,9 +26,10 @@ class HalAdc {
         void update_reading(void);
 
         /**
-         * @brief Get the ADC reading
+         * @brief Get the reading of the ADC
          *
-         * @return the ADC reading
+         * @param channel channel of the ADC
+         * @return uint32_t reading of the ADC channel
          */
         uint32_t get_adc_reading(uint8_t channel) const;
 

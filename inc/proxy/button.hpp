@@ -36,7 +36,7 @@ class Button {
          *
          * @param port pointer to the GPIO port
          * @param pin number of the GPIO pin
-         * @param is_pulldown true if the button is connected to ground, false otherwise
+         * @param pull_resistor pull resistor configuration
          */
         Button(GPIO_TypeDef* port, uint16_t pin, button_pull_resistor_t pull_resistor);
 
