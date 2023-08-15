@@ -21,28 +21,6 @@ class HalAdc {
         HalAdc(ADC_HandleTypeDef* adc_handle);
 
         /**
-         * @brief Start the ADC conversion
-         */
-        void start_dma(void);
-
-        /**
-         * @brief Stop the ADC conversion
-         */
-        void stop_dma(void);
-
-        /**
-         * @brief Check if the ADC conversion is done
-         *
-         * @return true if the conversion is done, false otherwise
-         */
-        bool is_reading_done(void);
-
-        /**
-         * @brief Set the reading done object
-         */
-        static void set_reading_done(void);
-
-        /**
          * @brief Update the ADC reading
          */
         void update_reading(void);
@@ -52,14 +30,12 @@ class HalAdc {
          *
          * @return the ADC reading
          */
-        uint16_t get_adc_reading(uint8_t channel);
+        uint32_t get_adc_reading(uint8_t channel) const;
 
         /**
-         * @brief Get the ADC reading array
-         *
-         * @return the ADC reading array
+         * @brief Set the reading done object
          */
-        std::array<uint16_t, number_of_channels> get_adc_reading_array(void);
+        static void set_reading_done(void);
 
     private:
         ADC_HandleTypeDef* adc_handle;
@@ -67,13 +43,7 @@ class HalAdc {
         uint32_t buffer_size = number_of_channels * reading_per_channel;
         static bool reading_done;
 
-        std::array<uint16_t, number_of_channels> adc_reading;
-
-        void clear_adc_reading();
-
-        void clear_buffer();
-
-        void average_adc_reading();
+        std::array<uint32_t, number_of_channels> adc_reading;
 };
 
 #include "../src/hal/hal_adc.cpp"

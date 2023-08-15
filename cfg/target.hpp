@@ -3,9 +3,10 @@
 
 #include <cstdint>
 
+#include "adc.h"
 #include "gpio.h"
 #include "tim.h"
-#include "adc.h"
+
 #include "proxy/button.hpp"
 
 GPIO_TypeDef* button_gpio_port = GPIOB;

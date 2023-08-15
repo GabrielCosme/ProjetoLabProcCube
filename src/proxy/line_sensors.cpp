@@ -17,8 +17,6 @@ constexpr uint16_t line_threshold = 1000;
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
 LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDef* adc_handle) :
     hal_adc(adc_handle) {
-    hal_adc.start_dma();
-
     for (uint8_t i = 0; i < number_of_sensors; i++) {
         sensors_weight[i] = i - (number_of_sensors - 1) / 2.0F;
     }
