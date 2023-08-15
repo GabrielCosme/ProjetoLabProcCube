@@ -16,10 +16,10 @@ class HalPwm {
         /**
          * @brief Construct a new Hal Pwm object
          *
-         * @param htim Timer handle
+         * @param timer_handle Timer handle
          * @param channel Timer channel
          */
-        HalPwm(TIM_HandleTypeDef* htim, uint32_t channel);
+        HalPwm(TIM_HandleTypeDef* timer_handle, uint32_t channel);
 
         /**
          * @brief Start the PWM
@@ -34,7 +34,7 @@ class HalPwm {
         void set_compare(uint32_t compare);
 
     private:
-        TIM_HandleTypeDef* tim_handle;
+        TIM_HandleTypeDef* timer_handle;
         uint32_t channel;
 };
 
