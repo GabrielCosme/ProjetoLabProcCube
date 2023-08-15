@@ -1,4 +1,3 @@
-
 #ifndef __BUTTERWORTH_SEC_ORDER_HPP__
 #define __BUTTERWORTH_SEC_ORDER_HPP__
 
@@ -52,10 +51,24 @@ class ButterworthFilter {
         float update(float x0);
 
     private:
+        /**
+         * @brief last input values of the filter
+         */
         std::array<float, filter_order + 1> x_array;
+
+        /**
+         * @brief last output values of the filter
+         */
         std::array<float, filter_order> y_array;
 
+        /**
+         * @brief Coefficients of the filter related to the output value
+         */
         std::array<float, filter_order> a_array;
+
+        /**
+         * @brief Coefficients of the filter related to the input value
+         */
         std::array<float, filter_order + 1> b_array;
 };
 

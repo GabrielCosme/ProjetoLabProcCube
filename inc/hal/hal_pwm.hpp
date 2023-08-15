@@ -3,10 +3,6 @@
 
 #include "tim.h"
 
-// Descomentar depois
-// #define TIM_CHANNEL_1 0x00000000U
-// #define TIM_CHANNEL_2 0x00000004U
-
 /*****************************************
  * Class Declaration
  *****************************************/
@@ -34,7 +30,14 @@ class HalPwm {
         void set_compare(uint32_t compare);
 
     private:
+        /**
+         * @brief pointer to the timer handle
+         */
         TIM_HandleTypeDef* timer_handle;
+
+        /**
+         * @brief Timer channel
+         */
         uint32_t channel;
 };
 

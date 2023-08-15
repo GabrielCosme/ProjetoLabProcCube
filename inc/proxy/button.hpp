@@ -48,15 +48,49 @@ class Button {
         button_status_t get_status();
 
     private:
+        /**
+         * @brief pointer to the GPIO port
+         */
         GPIO_TypeDef* port;
+
+        /**
+         * @brief number of the GPIO pin
+         */
         uint16_t pin;
+
+        /**
+         * @brief pull resistor configuration
+         */
         button_pull_resistor_t pull_resistor;
+
+        /**
+         * @brief timer to check if button is debouncing
+         */
         HalTimer debounce_timer;
+
+        /**
+         * @brief timer to determine type of button press
+         */
         HalTimer status_timer;
+
+        /**
+         * @brief flag to know when button is debouncing
+         */
         bool is_debouncing = false;
+
+        /**
+         * @brief flag to know if button was being pressed
+         */
         bool previous_state = false;
+
+        /**
+         * @brief flag to know if button is being pressed
+         */
         bool current_state = false;
 
+        /**
+         * @brief gpio where the button is read from
+         */
         const HalGpio hal_gpio;
 
         /**
