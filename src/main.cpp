@@ -40,8 +40,12 @@ int main(void) {
     int16_t linear_command = 0;
 
     for (;;) {
-        if (button.get_status() != BUTTON_NO_PRESS) {
-            stopped = !stopped;
+        if (button.get_status() == BUTTON_LONG_PRESS) {
+            line_sensors.calibrate_white();
+        } else if (button.get_status() == BUTTON_EXTRA_LONG_PRESS) {
+            line_sensors.calibrate_black();
+        } else if (button.get_status() == BUTTON_SHORT_PRESS) {
+            stopped = not stopped;
             led.toggle();
         }
 

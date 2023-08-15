@@ -27,10 +27,26 @@ class LineSensors {
          */
         float get_position();
 
+        /**
+         * @brief Calibrates the line sensors for the white line
+         */
+        void calibrate_white();
+
+        /**
+         * @brief Calibrates the line sensors for the black background
+         */
+        void calibrate_black();
+
     private:
         HalAdc<number_of_sensors, reading_per_sensor> hal_adc;
 
         std::array<float, number_of_sensors> sensors_weight;
+
+        std::array<uint32_t, number_of_sensors> white_readings;
+
+        std::array<uint32_t, number_of_sensors> black_readings;
+
+        std::array<uint32_t, number_of_sensors> line_thresholds;
 };
 
 #include "../src/proxy/line_sensors.cpp"

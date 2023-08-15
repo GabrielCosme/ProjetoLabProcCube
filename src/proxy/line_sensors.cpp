@@ -5,12 +5,6 @@
 #include "proxy/line_sensors.hpp"
 
 /*****************************************
- * Private Constants
- *****************************************/
-
-constexpr uint16_t line_threshold = 3900;
-
-/*****************************************
  * Public Functions Bodies Definitions
  *****************************************/
 
@@ -20,6 +14,12 @@ LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDe
     for (uint8_t i = 0; i < number_of_sensors; i++) {
         sensors_weight[i] = i - (number_of_sensors - 1) / 2.0F;
     }
+
+    white_readings.fill(4000);
+
+    black_readings.fill(3900);
+
+    line_thresholds.fill(3800);
 }
 
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
@@ -30,7 +30,7 @@ float LineSensors<number_of_sensors, reading_per_sensor>::get_position() {
     uint8_t active_sensors = 0;
 
     for (uint8_t i = 0; i < number_of_sensors; i++) {
-        if (this->hal_adc.get_adc_reading(i) < line_threshold) {
+        if (this->hal_adc.get_adc_reading(i) < line_thresholds[i]) {
             position += this->sensors_weight[i];
             active_sensors++;
         }
@@ -41,6 +41,26 @@ float LineSensors<number_of_sensors, reading_per_sensor>::get_position() {
     }
 
     return position;
+}
+
+template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
+void LineSensors<number_of_sensors, reading_per_sensor>::calibrate_white() {
+    hal_adc.update_reading();
+
+    for (uint8_t i = 0; i < number_of_sensors; i++) {
+        white_readings[i] = hal_adc.get_adc_reading(i);
+        line_thresholds[i] = (white_readings[i] + black_readings[i]) / 2;
+    }
+}
+
+template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
+void LineSensors<number_of_sensors, reading_per_sensor>::calibrate_black() {
+    hal_adc.update_reading();
+
+    for (uint8_t i = 0; i < number_of_sensors; i++) {
+        black_readings[i] = hal_adc.get_adc_reading(i);
+        line_thresholds[i] = (white_readings[i] + black_readings[i]) / 2;
+    }
 }
 
 #endif // __LINE_SENSORS_CPP__
