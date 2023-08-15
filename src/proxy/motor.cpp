@@ -8,8 +8,7 @@ static constexpr uint16_t motors_timer_counter_period = 1000;
 static constexpr float max_stopped_command = 0.02;
 
 Motor::Motor(TIM_HandleTypeDef* htim, uint32_t forward_timer_channel, uint32_t backward_timer_channel, float deadzone) :
-    forward_pwm(htim, forward_timer_channel), backward_pwm(htim, backward_timer_channel),
-    deadzone(deadzone) {
+    forward_pwm(htim, forward_timer_channel), backward_pwm(htim, backward_timer_channel), deadzone(deadzone) {
     if (htim == &htim1) {
         MX_TIM1_Init();
     } else if (htim == &htim2) {
