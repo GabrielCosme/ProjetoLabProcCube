@@ -22,17 +22,17 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
 # Cube file name without .ioc extension
-project(stm32_project_template C ASM)
+project(blackpill_test C CXX ASM)
 
 # Set the board version to an empty string if your board doesn't have a version
-set(BOARD_VERSION "")
+set(BOARD_VERSION "v1")
 
 # Device Configuration
-set(DEVICE_CORTEX F3)
-set(DEVICE_FAMILY STM32F3xx)
-set(DEVICE_TYPE STM32F303xx)
-set(DEVICE_DEF STM32F303xE)
-set(DEVICE STM32F303RE)
+set(DEVICE_CORTEX F4)
+set(DEVICE_FAMILY STM32F4xx)
+set(DEVICE_TYPE STM32F411xx)
+set(DEVICE_DEF STM32F411xE)
+set(DEVICE STM32F411CE)
 
 # DEVICE_FAMILY_COMPACT is the same as DEVICE_FAMILY but without the STM32 prefix
 string(REPLACE "STM32" "" DEVICE_FAMILY_COMPACT ${DEVICE})
@@ -50,6 +50,17 @@ set(TARGET_BOARD target_${PROJECT_RELEASE})
 
 set(LAUNCH_JSON_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.vscode/launch.json)
 set(DEBUG_FILE_NAME ${PROJECT_NAME})
+
+# SET OPENOCD TARGET CONFIGURATION FILE
+if(CMAKE_HOST_WIN32)
+    set(OPENOCD_SCRIPTS_PATH "C:\\msys64\\mingw64\\share\\openocd\\scripts")
+else()
+    set(OPENOCD_SCRIPTS_PATH "/usr/share/openocd/scripts")
+endif()
+string(TOLOWER ${DEVICE_FAMILY} LOWERCASE_DEVICE_FAMILY)
+string(LENGTH ${LOWERCASE_DEVICE_FAMILY} LENGTH)
+math(EXPR LENGTH_MINUS_ONE "${LENGTH} - 1")
+string(SUBSTRING ${LOWERCASE_DEVICE_FAMILY} 0 ${LENGTH_MINUS_ONE} TARGET_CFG)
 
 include(cmake/config_validation.cmake)
 include(cmake/workspace.cmake)
@@ -87,7 +98,8 @@ set(DEPENDENCIES
     HAL::STM32::${DEVICE_CORTEX}::I2C
     HAL::STM32::${DEVICE_CORTEX}::SPI
     HAL::STM32::${DEVICE_CORTEX}::TIMEx
-    HAL::STM32::${DEVICE_CORTEX}::UARTEx
+    HAL::STM32::${DEVICE_CORTEX}::UART
+    HAL::STM32::${DEVICE_CORTEX}::USART
     HAL::STM32::${DEVICE_CORTEX}::WWDG
 
     HAL::STM32::${DEVICE_CORTEX}::RCCEx
@@ -113,6 +125,7 @@ set(LIB_INCLUDE_DIRECTORIES
 ###############################################################################
 
 set(C_INCLUDE_DIRECTORIES
+    ./cfg
     ./inc
     ./cube/Inc
 )
@@ -125,12 +138,12 @@ set(TEST_INCLUDE_DIRECTORIES
 ## Input files
 ###############################################################################
 
-file(GLOB_RECURSE C_SOURCES CONFIGURE_DEPENDS "src/*.c")
-file(GLOB_RECURSE C_HEADERS CONFIGURE_DEPENDS "inc/*.h")
+file(GLOB_RECURSE C_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+file(GLOB_RECURSE C_HEADERS CONFIGURE_DEPENDS "inc/*.hpp" "cfg/*.hpp")
 
-file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS "tests/src/*.c")
-file(GLOB_RECURSE TESTS_HEADERS CONFIGURE_DEPENDS "tests/inc/*.h")
-file(GLOB_RECURSE TESTS_BIN CONFIGURE_DEPENDS "tests/bin/*.c")
+file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS "tests/src/*.cpp")
+file(GLOB_RECURSE TESTS_HEADERS CONFIGURE_DEPENDS "tests/inc/*.hpp")
+file(GLOB_RECURSE TESTS_BIN CONFIGURE_DEPENDS "tests/bin/*.cpp")
 
 file(GLOB_RECURSE CUBE_SOURCES CONFIGURE_DEPENDS "cube/Src/*.c")
 
@@ -184,12 +197,12 @@ targets_generate_helpme_target()
 ## Generate test executables
 ###############################################################################
 
-# Since each test has its own main function, we don't need the main.c from the project
-list(REMOVE_ITEM C_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c)
+# Since each test has its own main function, we don't need the main.cpp from the project
+list(REMOVE_ITEM C_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 foreach(TEST_FILE ${TESTS_BIN})
 
-    # If TEST_FILE contains /dir1/dir2/file.c, TEST_NAME will be 'file'
+    # If TEST_FILE contains /dir1/dir2/file.cpp, TEST_NAME will be 'file'
     get_filename_component(TEST_NAME ${TEST_FILE} NAME_WLE)
 
     add_executable(${TEST_NAME} EXCLUDE_FROM_ALL

@@ -2,22 +2,26 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "cortex-debug",
-            "request": "launch",
-            "servertype": "stutil",
+            "name": "Cortex Debug (ST-Link OpenOCD)",
             "cwd": "${CMAKE_CURRENT_SOURCE_DIR}",
-            "gdbPath": "arm-none-eabi-gdb",
             "executable": "build/${DEBUG_FILE_NAME}.elf",
-            "name": "Cortex Debug (ST-Util)",
-            "device": "${DEVICE}",
-            "v1": false
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "openocd",
+            "gdbPath": "gdb-multiarch",
+            "configFiles":
+            [
+                "${OPENOCD_SCRIPTS_PATH}/interface/stlink.cfg",
+                "${OPENOCD_SCRIPTS_PATH}/target/${TARGET_CFG}.cfg"
+            ]
         },
         {
             "type": "cortex-debug",
             "request": "launch",
             "servertype": "jlink",
             "cwd": "${CMAKE_CURRENT_SOURCE_DIR}",
-            "gdbPath": "arm-none-eabi-gdb",
+            "gdbPath": "gdb-multiarch",
             "executable": "build/${DEBUG_FILE_NAME}.elf",
             "name": "Cortex Debug (J-Link)",
             "device": "${DEVICE}",

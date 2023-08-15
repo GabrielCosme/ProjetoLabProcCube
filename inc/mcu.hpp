@@ -1,13 +1,7 @@
-/**
- * @file mcu.h
- *
- * @brief MCU related
- */
+#ifndef __MCU_HPP__
+#define __MCU_HPP__
 
-#ifndef __MCU_H__
-#define __MCU_H__
-
-#include <stdint.h>
+#include <cstdint>
 
 /*****************************************
  * Public Function Prototypes
@@ -18,11 +12,13 @@
  */
 void mcu_init(void);
 
+extern "C" {
 /**
  * @brief Initializes System Clock.
  * @note  Defined by cube.
  */
 void SystemClock_Config(void);
+}
 
 /**
  * @brief Put the MCU to sleep.
@@ -31,9 +27,4 @@ void SystemClock_Config(void);
  */
 void mcu_sleep(uint32_t ms);
 
-/**
- * @brief Toggles LED.
- */
-void led_toggle(void);
-
-#endif // __MCU_H__
+#endif // __MCU_HPP__
