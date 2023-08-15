@@ -26,7 +26,7 @@ class Motor {
          *
          * @param speed speed of the motor
          */
-        void set_speed(uint8_t speed);
+        void set_speed(int16_t speed);
 
     private:
         HalPwm forward_pwm;

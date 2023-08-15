@@ -10,8 +10,8 @@ Locomotion::Locomotion(TIM_HandleTypeDef* left_motor_timer_handle, TIM_HandleTyp
 }
 
 void Locomotion::set_speeds(int16_t linear, int16_t angular) {
-    uint16_t left_command = linear + angular;
-    uint16_t right_command = linear - angular;
+    int16_t left_command = linear + angular;
+    int16_t right_command = linear - angular;
 
     if (std::abs(left_command) > max_motors_speed) {
         left_command *= max_motors_speed / std::abs(left_command);

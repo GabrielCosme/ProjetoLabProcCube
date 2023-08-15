@@ -23,7 +23,7 @@ Motor::Motor(TIM_HandleTypeDef* htim, uint32_t forward_timer_channel, uint32_t b
     backward_pwm.set_compare(0);
 }
 
-void Motor::set_speed(uint8_t speed) {
+void Motor::set_speed(int16_t speed) {
     bool command_sign = std::signbit(speed);
     int32_t command = std::abs(constrain(speed, min_motors_speed, max_motors_speed));
 
