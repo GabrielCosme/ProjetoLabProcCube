@@ -21,7 +21,7 @@ int main(void) {
 
     Button button(button_gpio_port, button_pin, button_pull_resistor);
 
-    HalGpio led(led_gpio_port, led_pin);
+    HalGpio led(led_gpio_port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, led_pin);
 
     LineSensors<adc_num_channels, adc_readings_per_channel> line_sensors(line_sensor_adc_handle);
 

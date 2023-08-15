@@ -2,3 +2,7 @@
 	path = lib/stm32-cmake
 	url = git@github.com:ThundeRatz/stm32-cmake.git
 	branch = master
+[submodule "lib/libopencm3"]
+	path = lib/libopencm3
+	url = git@github.com:libopencm3/libopencm3.git
+	branch = master

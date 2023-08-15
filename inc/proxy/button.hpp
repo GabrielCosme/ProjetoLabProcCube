@@ -38,7 +38,7 @@ class Button {
          * @param pin number of the GPIO pin
          * @param is_pulldown true if the button is connected to ground, false otherwise
          */
-        Button(GPIO_TypeDef* port, uint16_t pin, button_pull_resistor_t pull_resistor);
+        Button(uint32_t port, uint16_t pin, button_pull_resistor_t pull_resistor);
 
         /**
          * @brief Provides the status of the chosen button.
@@ -48,7 +48,7 @@ class Button {
         button_status_t get_status();
 
     private:
-        GPIO_TypeDef* port;
+        uint32_t port;
         uint16_t pin;
         button_pull_resistor_t pull_resistor;
         HalTimer debounce_timer;

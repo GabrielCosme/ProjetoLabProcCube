@@ -1,5 +1,6 @@
 
 #include "proxy/button.hpp"
+#include <libopencm3/stm32/gpio.h>
 
 /*****************************************
  * Private Constants
@@ -13,8 +14,9 @@ static constexpr float extra_long_press_time = 3.0;
  * Class Definition
  *****************************************/
 
-Button::Button(GPIO_TypeDef* port, uint16_t pin, button_pull_resistor_t pull_resistor) :
-    port(port), pin(pin), pull_resistor(pull_resistor), hal_gpio(port, pin) {
+Button::Button(uint32_t port, uint16_t pin, button_pull_resistor_t pull_resistor) :
+    port(port), pin(pin), pull_resistor(pull_resistor),
+    hal_gpio(port, GPIO_MODE_INPUT, pull_resistor == BUTTON_PULL_UP ? GPIO_PUPD_PULLUP : GPIO_PUPD_PULLDOWN, pin) {
 }
 
 void Button::update_state() {

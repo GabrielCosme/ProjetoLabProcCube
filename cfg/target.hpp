@@ -4,17 +4,19 @@
 #include <cstdint>
 
 #include "adc.h"
-#include "gpio.h"
 #include "tim.h"
+
+#include <libopencm3/stm32/gpio.h>
 
 #include "proxy/button.hpp"
 
-GPIO_TypeDef* button_gpio_port = GPIOB;
-constexpr uint16_t button_pin = GPIO_PIN_10;
+uint32_t button_gpio_port = GPIOB;
+constexpr uint16_t button_pin = GPIO10;
 const button_pull_resistor_t button_pull_resistor = BUTTON_PULL_UP;
 
-GPIO_TypeDef* led_gpio_port = GPIOB;
-constexpr uint16_t led_pin = GPIO_PIN_15;
+uint32_t led_gpio_port = GPIOB;
+constexpr uint16_t led_pin = GPIO15;
+uint8_t led_gpio_mode = GPIO_MODE_OUTPUT;
 
 TIM_HandleTypeDef* left_motor_timer_handle = &htim2;
 TIM_HandleTypeDef* right_motor_timer_handle = &htim1;
