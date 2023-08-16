@@ -5,9 +5,8 @@ static constexpr float debounce_delay = 0.01;
 static constexpr float long_press_time = 0.9;
 static constexpr float extra_long_press_time = 3.0;
 
-Button::Button(const GpioConfig& gpio_config) :
-    pull_resistor(gpio_config.pull_resistor == GPIO_PUPD_PULLUP ? BUTTON_PULL_UP : BUTTON_PULL_DOWN),
-    hal_gpio(gpio_config) {
+Button::Button(const GpioConfig& gpio_config, button_pull_resistor_t pull_resistor) :
+    hal_gpio(gpio_config), pull_resistor(pull_resistor) {
 }
 
 void Button::update_state() {
@@ -37,7 +36,7 @@ bool Button::is_falling_edge() const {
 }
 
 bool Button::is_pressed() const {
-    return ((int) this->hal_gpio.read() == (int) this->pull_resistor);
+    return (this->hal_gpio.read() == (bool) this->pull_resistor);
 }
 
 button_status_t Button::get_status() {

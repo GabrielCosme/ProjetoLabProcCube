@@ -28,8 +28,9 @@ class Button {
          * @brief Construct a new Button object
          *
          * @param pio_config Configuration of the button GPIO port
+         * @param pull_resistor Type of pull resistor configuration
          */
-        Button(const GpioConfig& gpio_config);
+        Button(const GpioConfig& gpio_config, button_pull_resistor_t pull_resistor);
 
         /**
          * @brief Provides the status of the chosen button.

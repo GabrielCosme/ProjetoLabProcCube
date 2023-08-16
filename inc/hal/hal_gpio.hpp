@@ -7,10 +7,13 @@
 
 struct GpioConfig {
     uint32_t         port;
+    uint16_t         pin;
     uint8_t          mode;
     uint8_t          pull_resistor;
-    uint16_t         pin;
     rcc_periph_clken rcc_clock;
+    uint8_t          otype;
+    uint8_t          speed;
+    uint8_t          alt_func_num;
 };
 
 class HalGpio {

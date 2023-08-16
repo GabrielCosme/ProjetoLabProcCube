@@ -13,7 +13,7 @@
 int main(void) {
     mcu_init();
 
-    Button button(button_config);
+    Button button(button_config, button_pull_resistor);
 
     HalGpio led(led_config);
 
@@ -60,8 +60,3 @@ int main(void) {
         locomotion.set_speeds(linear_command, angular_command);
     }
 }
-
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-    (void) (hadc);
-    HalAdc<adc_num_channels, adc_readings_per_channel>::set_reading_done();
-};
