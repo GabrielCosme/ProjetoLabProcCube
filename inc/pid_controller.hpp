@@ -12,7 +12,7 @@ class PidController {
         /**
          * @brief Construct a new Pid Controller object
          *
-         * @param kp Proportinal constant
+         * @param kp Proportional constant
          * @param ki Integrative constant
          * @param kd Derivative constant
          * @param setpoint Desired state

@@ -1,8 +1,6 @@
 #ifndef __LOCOMOTION_HPP__
 #define __LOCOMOTION_HPP__
 
-#include <cstdint>
-
 #include "proxy/motor.hpp"
 
 class Locomotion {
@@ -10,16 +8,13 @@ class Locomotion {
         /**
          * @brief Construct a new Locomotion object
          *
-         * @param left_motor_timer_handle pointer to the left motor timer handle
-         * @param right_motor_timer_handle pointer to the right motor timer handle
-         * @param forward_timer_channel channel of the forward pwm
-         * @param backward_timer_channel channel of the backward pwm
-         * @param left_deadzone deadzone of the left motor
-         * @param right_deadzone deadzone of the right motor
+         * @param left_motor_config Configuration of the left motor
+         * @param right_motor_config Configuration of the right motor
+         * @param left_deadzone Deadzone of the left motor
+         * @param right_deadzone Deadzone of the right motor
          */
-        Locomotion(TIM_HandleTypeDef* left_motor_timer_handle, TIM_HandleTypeDef* right_motor_timer_handle,
-                   uint32_t forward_timer_channel, uint32_t backward_timer_channel, float left_deadzone = 0,
-                   float right_deadzone = 0);
+        Locomotion(const MotorConfig& left_motor_config, const MotorConfig& right_motor_config,
+                   float left_deadzone = 0.0, float right_deadzone = 0.0);
 
         /**
          * @brief Set the speeds of the motors
@@ -27,14 +22,14 @@ class Locomotion {
          * @param linear Linear speed
          * @param angular Angular speed
          */
-        void set_speeds(int16_t linear, int16_t angular);
+        void set_speeds(float linear, float angular);
 
         /**
          * @brief Compute the linear decay of the angular error
          *
          * @param angular_error Angular error
          * @param dependency Dependency of the linear decay
-         * @return float Linear decay
+         * @return Linear decay
          */
         static float linear_decay(float angular_error, float dependency);
 

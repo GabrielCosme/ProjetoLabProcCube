@@ -1,10 +1,6 @@
 #include "mcu.hpp"
 #include "stm32f4xx_hal.h"
 
-/*****************************************
- * Public Function Body Definitions
- *****************************************/
-
 void mcu_init(void) {
     HAL_Init();
 

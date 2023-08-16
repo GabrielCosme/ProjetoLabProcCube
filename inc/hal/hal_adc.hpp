@@ -6,15 +6,18 @@
 
 #include "adc.h"
 
+struct AdcConfig {
+};
+
 template <uint8_t number_of_channels, uint16_t reading_per_channel>
 class HalAdc {
     public:
         /**
          * @brief Construct a new Hal Adc object
          *
-         * @param adc_handle pointer to the ADC handle
+         * @param adc_config Configuration of the ADC
          */
-        HalAdc(ADC_HandleTypeDef* adc_handle);
+        HalAdc(const AdcConfig& adc_config);
 
         /**
          * @brief Update the ADC reading
@@ -24,8 +27,8 @@ class HalAdc {
         /**
          * @brief Get the reading of the ADC
          *
-         * @param channel channel of the ADC
-         * @return uint32_t reading of the ADC channel
+         * @param channel Channel of the ADC
+         * @return uint32_t Reading of the ADC channel
          */
         uint32_t get_adc_reading(uint8_t channel) const;
 

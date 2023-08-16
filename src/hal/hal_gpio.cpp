@@ -1,15 +1,11 @@
 #include "hal/hal_gpio.hpp"
 
-HalGpio::HalGpio(const GpioConfig& gpio_config) {
+HalGpio::HalGpio(const GpioConfig& gpio_config) : port(gpio_config.port), pin(gpio_config.pin) {
     rcc_periph_clock_enable(gpio_config.rcc_clock);
-
-    gpio_mode_setup(gpio_config.port, gpio_config.mode, gpio_config.pull_up_down, gpio_config.pin);
-
-    this->pin = gpio_config.pin;
-    this->port = gpio_config.port;
+    gpio_mode_setup(gpio_config.port, gpio_config.mode, gpio_config.pull_resistor, gpio_config.pin);
 }
 
-bool HalGpio::read(void) const {
+bool HalGpio::read() const {
     return gpio_get(this->port, this->pin);
 }
 
@@ -21,6 +17,6 @@ void HalGpio::write(bool pin_state) {
     }
 }
 
-void HalGpio::toggle(void) {
+void HalGpio::toggle() {
     gpio_toggle(this->port, this->pin);
 }

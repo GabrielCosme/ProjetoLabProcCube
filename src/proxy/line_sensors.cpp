@@ -7,10 +7,6 @@
 constexpr uint32_t default_white_value = 4000;
 constexpr uint32_t default_black_value = 3850;
 
-/*****************************************
- * Public Functions Bodies Definitions
- *****************************************/
-
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
 LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDef* adc_handle) :
     hal_adc(adc_handle) {

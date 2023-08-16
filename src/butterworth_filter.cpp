@@ -2,14 +2,9 @@
 
 #include "butterworth_filter.hpp"
 
-/*****************************************
- * Class Methods Bodies Definitions
- *****************************************/
-
 ButterworthFilter::ButterworthFilter(float cutoff_frequency, float sampling_frequency) :
     x_array{}, y_array{}, a_array{}, b_array{} {
     float relative_frequency = cutoff_frequency / sampling_frequency;
-
     float relative_frequency_2 = relative_frequency * relative_frequency;
 
     float b0 = 1;

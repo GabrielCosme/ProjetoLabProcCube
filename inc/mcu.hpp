@@ -3,10 +3,6 @@
 
 #include <cstdint>
 
-/*****************************************
- * Public Function Prototypes
- *****************************************/
-
 /**
  * @brief Initializes MCU and some peripherals.
  */

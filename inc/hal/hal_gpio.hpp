@@ -8,7 +8,7 @@
 struct GpioConfig {
     uint32_t         port;
     uint8_t          mode;
-    uint8_t          pull_up_down;
+    uint8_t          pull_resistor;
     uint16_t         pin;
     rcc_periph_clken rcc_clock;
 };
@@ -18,21 +18,21 @@ class HalGpio {
         /**
          * @brief Construct a new Hal GPIO object
          *
-         * @param gpio_config configuration of the gpio instance
+         * @param gpio_config Configuration of the gpio instance
          */
         HalGpio(const GpioConfig& gpio_config);
 
         /**
          * @brief Read the GPIO pin
          *
-         * @return true if the pin is high, false otherwise
+         * @return True if the pin is high, false otherwise
          */
         bool read(void) const;
 
         /**
          * @brief Write to the GPIO pin
          *
-         * @param pin_state state of the GPIO pin
+         * @param pin_state State of the GPIO pin
          */
         void write(bool pin_state);
 
@@ -43,7 +43,7 @@ class HalGpio {
 
     private:
         /**
-         * @brief Pointer to the GPIO port
+         * @brief Number of the GPIO port
          */
         uint32_t port;
 

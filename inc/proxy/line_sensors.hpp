@@ -6,10 +6,6 @@
 
 #include "hal/hal_adc.hpp"
 
-/*****************************************
- * Public Functions Prototypes
- *****************************************/
-
 template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
 class LineSensors {
     public:
@@ -44,22 +40,22 @@ class LineSensors {
         HalAdc<number_of_sensors, reading_per_sensor> hal_adc;
 
         /**
-         * @brief weight of each sensor to calculate the line position
+         * @brief Weight of each sensor to calculate the line position
          */
         std::array<float, number_of_sensors> sensors_weight;
 
         /**
-         * @brief sensors reading of the white line
+         * @brief Sensors reading of the white line
          */
         std::array<uint32_t, number_of_sensors> white_readings;
 
         /**
-         * @brief sensors reading of the black background
+         * @brief Sensors reading of the black background
          */
         std::array<uint32_t, number_of_sensors> black_readings;
 
         /**
-         * @brief thresholds to determine if the sensor is on the line or not
+         * @brief Thresholds to determine if the sensor is on the line or not
          */
         std::array<uint32_t, number_of_sensors> line_thresholds;
 };

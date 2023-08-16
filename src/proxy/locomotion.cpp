@@ -2,16 +2,14 @@
 
 #include "proxy/locomotion.hpp"
 
-Locomotion::Locomotion(TIM_HandleTypeDef* left_motor_timer_handle, TIM_HandleTypeDef* right_motor_timer_handle,
-                       uint32_t forward_timer_channel, uint32_t backward_timer_channel, float left_deadzone,
+Locomotion::Locomotion(const MotorConfig& left_motor_config, const MotorConfig& right_motor_config, float left_deadzone,
                        float right_deadzone) :
-    left_motor(left_motor_timer_handle, forward_timer_channel, backward_timer_channel, left_deadzone),
-    right_motor(right_motor_timer_handle, forward_timer_channel, backward_timer_channel, right_deadzone) {
+    left_motor(left_motor_config, left_deadzone), right_motor(right_motor_config, right_deadzone) {
 }
 
-void Locomotion::set_speeds(int16_t linear, int16_t angular) {
-    int16_t left_command = linear + angular;
-    int16_t right_command = linear - angular;
+void Locomotion::set_speeds(float linear, float angular) {
+    float left_command = linear + angular;
+    float right_command = linear - angular;
 
     if (std::abs(left_command) > max_motors_speed) {
         left_command *= max_motors_speed / std::abs(left_command);

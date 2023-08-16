@@ -3,10 +3,6 @@
 #include "pid_controller.hpp"
 #include "utils.hpp"
 
-/*****************************************
- * Class Methods Bodies Definitions
- *****************************************/
-
 PidController::PidController(float kp, float ki, float kd, float setpoint, float saturation, float max_integral) :
     kp{kp}, ki{ki}, kd{kd}, setpoint{setpoint}, saturation{saturation}, max_integral{max_integral} {
 }

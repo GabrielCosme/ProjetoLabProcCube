@@ -6,33 +6,26 @@
 #include "butterworth_filter.hpp"
 #include "pid_controller.hpp"
 
-#include "hal/hal_gpio.hpp"
-
 #include "proxy/button.hpp"
 #include "proxy/line_sensors.hpp"
 #include "proxy/locomotion.hpp"
 
-/*****************************************
- * Main Function
- *****************************************/
-
 int main(void) {
     mcu_init();
 
-    Button button(button_gpio_port, button_pin, button_pull_resistor);
+    Button button(button_config);
 
-    HalGpio led(led_gpio_port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, led_pin);
+    HalGpio led(led_config);
 
-    LineSensors<adc_num_channels, adc_readings_per_channel> line_sensors(line_sensor_adc_handle);
+    LineSensors<adc_num_channels, adc_readings_per_channel> line_sensors(line_sensors_config);
 
-    Locomotion locomotion(left_motor_timer_handle, right_motor_timer_handle, motor_forward_timer_channel,
-                          motor_backward_timer_channel, left_deadzone, right_deadzone);
+    Locomotion locomotion(left_motor_config, right_motor_config, left_deadzone, right_deadzone);
 
     PidController pid_controller(kp, ki, kd, 0.0, saturation, max_integral);
 
     ButterworthFilter filter(filter_frequency);
 
-    led.write(GPIO_PIN_SET);
+    led.write(true);
 
     bool stopped = true;
     float angular_position = 0, line_measure = 0;

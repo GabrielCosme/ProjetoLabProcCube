@@ -1,22 +1,13 @@
 
 #include "proxy/button.hpp"
-#include <libopencm3/stm32/gpio.h>
-
-/*****************************************
- * Private Constants
- *****************************************/
 
 static constexpr float debounce_delay = 0.01;
 static constexpr float long_press_time = 0.9;
 static constexpr float extra_long_press_time = 3.0;
 
-/*****************************************
- * Class Definition
- *****************************************/
-
-Button::Button(uint32_t port, uint16_t pin, button_pull_resistor_t pull_resistor) :
-    port(port), pin(pin), pull_resistor(pull_resistor),
-    hal_gpio(port, GPIO_MODE_INPUT, pull_resistor == BUTTON_PULL_UP ? GPIO_PUPD_PULLUP : GPIO_PUPD_PULLDOWN, pin) {
+Button::Button(const GpioConfig& gpio_config) :
+    pull_resistor(gpio_config.pull_resistor == GPIO_PUPD_PULLUP ? BUTTON_PULL_UP : BUTTON_PULL_DOWN),
+    hal_gpio(gpio_config) {
 }
 
 void Button::update_state() {

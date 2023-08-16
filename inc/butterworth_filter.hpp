@@ -4,15 +4,7 @@
 #include <array>
 #include <cstdint>
 
-/*****************************************
- * Public Constants
- *****************************************/
-
 static constexpr uint8_t filter_order{2};
-
-/*****************************************
- * Class Definition
- *****************************************/
 
 /**
  * @brief Implementation of Butterworth second order low-pass filter
@@ -52,12 +44,12 @@ class ButterworthFilter {
 
     private:
         /**
-         * @brief last input values of the filter
+         * @brief Last input values of the filter
          */
         std::array<float, filter_order + 1> x_array;
 
         /**
-         * @brief last output values of the filter
+         * @brief Last output values of the filter
          */
         std::array<float, filter_order> y_array;
 

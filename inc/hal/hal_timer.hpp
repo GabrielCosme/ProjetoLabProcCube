@@ -18,7 +18,7 @@ class HalTimer {
         /**
          * @brief Get elapsed time since last reset
          *
-         * @return float elapsed time in seconds
+         * @return Elapsed time in seconds
          */
         float get_time(void) const;
 
