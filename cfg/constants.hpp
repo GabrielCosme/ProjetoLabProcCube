@@ -1,8 +1,6 @@
 #ifndef __CONSTANTS_HPP__
 #define __CONSTANTS_HPP__
 
-#include <cstdint>
-
 constexpr float left_deadzone = 0.10;
 constexpr float right_deadzone = 0.10;
 
@@ -14,7 +12,7 @@ constexpr float max_integral = 40.0;
 
 constexpr float filter_frequency = 0.5;
 
-constexpr uint16_t linear_base_speed = 20;
+constexpr float linear_base_speed = 20;
 constexpr float linear_decay = 15.0;
 
 #endif // __CONSTANTS_HPP__

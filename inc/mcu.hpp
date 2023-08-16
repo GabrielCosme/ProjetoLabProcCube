@@ -1,6 +1,7 @@
 #ifndef __MCU_HPP__
 #define __MCU_HPP__
 
+#include <cstdint>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/cm3/systick.h>
 

@@ -6,6 +6,7 @@
 #include "butterworth_filter.hpp"
 #include "pid_controller.hpp"
 
+#include "hal/hal_gpio.hpp"
 #include "proxy/button.hpp"
 #include "proxy/line_sensors.hpp"
 #include "proxy/locomotion.hpp"

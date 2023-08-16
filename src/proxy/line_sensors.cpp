@@ -1,7 +1,6 @@
 #ifndef __LINE_SENSORS_CPP__
 #define __LINE_SENSORS_CPP__
 
-#include "hal/hal_adc.hpp"
 #include "proxy/line_sensors.hpp"
 
 constexpr uint32_t default_white_value = 3850;

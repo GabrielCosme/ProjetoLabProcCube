@@ -96,9 +96,10 @@ set(DEPENDENCIES
 # Add libraries .c files here
 set(LIB_SOURCES
     lib/libopencm3/lib/cm3/systick.c
-    lib/libopencm3/lib/stm32/common/adc_common_v1_multi.c
-    lib/libopencm3/lib/stm32/common/adc_common_v1.c
+    # lib/libopencm3/lib/cm3/vector.c
     lib/libopencm3/lib/stm32/common/adc_common_f47.c
+    lib/libopencm3/lib/stm32/common/adc_common_v1.c
+    lib/libopencm3/lib/stm32/common/adc_common_v1_multi.c
     lib/libopencm3/lib/stm32/common/flash_common_all.c
     lib/libopencm3/lib/stm32/common/flash_common_idcache.c
     lib/libopencm3/lib/stm32/common/gpio_common_all.c

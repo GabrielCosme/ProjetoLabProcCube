@@ -3,6 +3,7 @@
 #define __LINE_SENSORS_HPP__
 
 #include <array>
+#include <cstdint>
 
 #include "hal/hal_adc.hpp"
 

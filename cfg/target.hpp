@@ -1,8 +1,6 @@
 #ifndef __TARGET_HPP__
 #define __TARGET_HPP__
 
-#define STM32F4
-
 #include "mcu.hpp"
 #include "hal/hal_gpio.hpp"
 #include "hal/hal_adc.hpp"
