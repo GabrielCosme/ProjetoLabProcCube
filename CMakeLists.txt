@@ -82,6 +82,7 @@ add_compile_options(
     -MP
 )
 
+add_compile_definitions(STM32F4)
 add_compile_definitions(${DEVICE_DEF} USE_HAL_DRIVER)
 
 ###############################################################################
@@ -90,33 +91,21 @@ add_compile_definitions(${DEVICE_DEF} USE_HAL_DRIVER)
 
 set(DEPENDENCIES
     m  # math library
-
-    HAL::STM32::${DEVICE_CORTEX}
-
-    HAL::STM32::${DEVICE_CORTEX}::ADCEx
-    HAL::STM32::${DEVICE_CORTEX}::DMA
-    HAL::STM32::${DEVICE_CORTEX}::GPIO
-    HAL::STM32::${DEVICE_CORTEX}::I2C
-    HAL::STM32::${DEVICE_CORTEX}::SPI
-    HAL::STM32::${DEVICE_CORTEX}::TIMEx
-    HAL::STM32::${DEVICE_CORTEX}::UART
-    HAL::STM32::${DEVICE_CORTEX}::USART
-    HAL::STM32::${DEVICE_CORTEX}::WWDG
-
-    HAL::STM32::${DEVICE_CORTEX}::RCCEx
-    HAL::STM32::${DEVICE_CORTEX}::CORTEX
-
-    CMSIS::STM32::${DEVICE_FAMILY_COMPACT}
-    STM32::NoSys
 )
 
 # Add libraries .c files here
 set(LIB_SOURCES
-    # lib/lib_name/src/file1.c
-    # lib/lib_name/src/file2.c
-    lib/libopencm3/lib/stm32/common/rcc_common_all.c
+    lib/libopencm3/lib/cm3/systick.c
+    lib/libopencm3/lib/stm32/common/adc_common_v1_multi.c
+    lib/libopencm3/lib/stm32/common/adc_common_v1.c
+    lib/libopencm3/lib/stm32/common/adc_common_f47.c
+    lib/libopencm3/lib/stm32/common/flash_common_all.c
+    lib/libopencm3/lib/stm32/common/flash_common_idcache.c
     lib/libopencm3/lib/stm32/common/gpio_common_all.c
     lib/libopencm3/lib/stm32/common/gpio_common_f0234.c
+    lib/libopencm3/lib/stm32/common/rcc_common_all.c
+    lib/libopencm3/lib/stm32/common/timer_common_all.c
+    lib/libopencm3/lib/stm32/f4/pwr.c
     lib/libopencm3/lib/stm32/f4/rcc.c
 )
 
