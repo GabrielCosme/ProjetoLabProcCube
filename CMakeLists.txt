@@ -167,7 +167,7 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 target_link_options(${PROJECT_NAME} PUBLIC
-    --specs=nano.specs
+    --specs=nosys.specs
 )
 
 stm32_print_size_of_target(${PROJECT_NAME})
@@ -211,7 +211,7 @@ foreach(TEST_FILE ${TESTS_BIN})
     )
 
     target_link_options(${TEST_NAME} PUBLIC
-        --specs=nano.specs
+        --specs=nosys.specs
     )
 
     stm32_generate_hex_file(${TEST_NAME})
