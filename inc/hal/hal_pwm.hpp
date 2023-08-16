@@ -9,12 +9,13 @@
 
 struct PwmConfig {
     GpioConfig       gpio;
-    rcc_periph_clken rcc_timer_clock;
     uint32_t         timer;
-    uint32_t         period;
     tim_oc_id        oc_id;
+    rcc_periph_clken rcc_clock;
+    uint32_t         period;
+    uint32_t         clock_div;
+    uint32_t         prescaler;
     tim_oc_mode      oc_mode;
-    uint8_t          irqn;
 };
 
 class HalPwm {
@@ -35,9 +36,14 @@ class HalPwm {
 
     private:
         /**
-         * @brief Timer channel
+         * @brief Timer where the PWM is generated
          */
-        uint32_t channel;
+        uint32_t timer;
+
+        /**
+         * @brief Channel of the PWM timer
+         */
+        tim_oc_id channel;
 };
 
 #endif // __HAL_PWM_HPP__

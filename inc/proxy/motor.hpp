@@ -19,7 +19,7 @@ class Motor {
          * @param motor_config Configuration for each pwm of the motor
          * @param deadzone Minimum value of the pwm to start the motor
          */
-        Motor(const MotorConfig& motor_config, float deadzone = 0);
+        Motor(const MotorConfig& motor_config, float deadzone = 0.0);
 
         /**
          * @brief Set the speed object
