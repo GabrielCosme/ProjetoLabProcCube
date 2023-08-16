@@ -12,6 +12,7 @@ cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/lib/stm32-cmake/cmake/stm32_gcc.cmake)
 set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 ## Options:
 # Release: high optimization level, no debug info, code or asserts.
@@ -25,7 +26,7 @@ set(CMAKE_BUILD_TYPE Debug)
 project(sebastion C CXX ASM)
 
 # Set the board version to an empty string if your board doesn't have a version
-set(BOARD_VERSION "v1")
+set(BOARD_VERSION "")
 
 # Device Configuration
 set(DEVICE_CORTEX F4)
@@ -131,7 +132,6 @@ set(LIB_INCLUDE_DIRECTORIES
 set(C_INCLUDE_DIRECTORIES
     ./cfg
     ./inc
-    ./cube/Inc
 )
 
 set(TEST_INCLUDE_DIRECTORIES
@@ -149,12 +149,6 @@ file(GLOB_RECURSE TESTS_SOURCES CONFIGURE_DEPENDS "tests/src/*.cpp")
 file(GLOB_RECURSE TESTS_HEADERS CONFIGURE_DEPENDS "tests/inc/*.hpp")
 file(GLOB_RECURSE TESTS_BIN CONFIGURE_DEPENDS "tests/bin/*.cpp")
 
-file(GLOB_RECURSE CUBE_SOURCES CONFIGURE_DEPENDS "cube/Src/*.c")
-
-# Remove system_xxx.c file from CubeMX, as it is already included in CMSIS
-string(TOLOWER ${DEVICE_FAMILY} DEVICE_FAMILY_LOWER)
-list(REMOVE_ITEM CUBE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/cube/Src/system_${DEVICE_FAMILY_LOWER}.c)
-
 # Add here the headers to be included in all files
 set(FORCED_INCLUDE_HEADERS
 )
@@ -166,7 +160,6 @@ targets_generate_format_target(C_SOURCES C_HEADERS TESTS_SOURCES TESTS_HEADERS T
 ###############################################################################
 
 add_executable(${PROJECT_NAME}
-    ${CUBE_SOURCES}
     ${C_SOURCES}
     ${LIB_SOURCES}
 )
@@ -174,8 +167,6 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${C_INCLUDE_DIRECTORIES}
     ${LIB_INCLUDE_DIRECTORIES}
-    ${CMSIS_INCLUDE_DIRS}
-    ${HAL_INCLUDE_DIRS}
 )
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC
@@ -211,7 +202,6 @@ foreach(TEST_FILE ${TESTS_BIN})
 
     add_executable(${TEST_NAME} EXCLUDE_FROM_ALL
         ${TEST_FILE}
-        ${CUBE_SOURCES}
         ${C_SOURCES}
         ${TESTS_SOURCES}
         ${LIB_SOURCES}
@@ -220,8 +210,6 @@ foreach(TEST_FILE ${TESTS_BIN})
     target_include_directories(${TEST_NAME} PUBLIC
         ${C_INCLUDE_DIRECTORIES}
         ${LIB_INCLUDE_DIRECTORIES}
-        ${CMSIS_INCLUDE_DIRS}
-        ${HAL_INCLUDE_DIRS}
         ${TEST_INCLUDE_DIRECTORIES}
     )
 
