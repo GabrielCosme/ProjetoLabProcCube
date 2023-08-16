@@ -1,15 +1,26 @@
 #ifndef __HAL_ADC_HPP__
 #define __HAL_ADC_HPP__
 
-#include <cstdint>
 #include <array>
+#include <cstdint>
+#include <libopencm3/stm32/adc.h>
+#include <libopencm3/stm32/rcc.h>
 
-#include "adc.h"
+#include "hal/hal_gpio.hpp"
 
 struct AdcConfig {
+    GpioConfig       gpio;
+    uint32_t         adc_number;
+    uint32_t         mode;
+    rcc_periph_clken rcc_clock;
+    rcc_periph_rst   rcc_reset;
+    uint32_t         prescaler;
+    uint32_t         resolution;
+    uint8_t*         channels;
+    uint8_t          sample_time;
 };
 
-template <uint8_t number_of_channels, uint16_t reading_per_channel>
+template <uint8_t number_of_channels>
 class HalAdc {
     public:
         /**
@@ -32,31 +43,11 @@ class HalAdc {
          */
         uint32_t get_adc_reading(uint8_t channel) const;
 
-        /**
-         * @brief Set the reading done object
-         */
-        static void set_reading_done(void);
-
     private:
         /**
-         * @brief Pointer to the ADC handle
+         * @brief ADC being used
          */
-        ADC_HandleTypeDef* adc_handle;
-
-        /**
-         * @brief Buffer to store the ADC reading
-         */
-        uint32_t buffer[number_of_channels * reading_per_channel];
-
-        /**
-         * @brief Size of the buffer
-         */
-        uint32_t buffer_size = number_of_channels * reading_per_channel;
-
-        /**
-         * @brief Static flag to indicate if the reading is done
-         */
-        static bool reading_done;
+        uint32_t adc_number;
 
         /**
          * @brief Array to store the average ADC reading of each channel

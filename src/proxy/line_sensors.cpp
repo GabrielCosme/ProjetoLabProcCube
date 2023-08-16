@@ -4,12 +4,12 @@
 #include "hal/hal_adc.hpp"
 #include "proxy/line_sensors.hpp"
 
-constexpr uint32_t default_white_value = 4000;
-constexpr uint32_t default_black_value = 3850;
+constexpr uint32_t default_white_value = 3850;
+constexpr uint32_t default_black_value = 4000;
 
-template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
-LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDef* adc_handle) :
-    hal_adc(adc_handle) {
+template <uint8_t number_of_sensors>
+LineSensors<number_of_sensors>::LineSensors(const AdcConfig& adc_config) :
+    hal_adc(adc_config) {
     for (uint8_t i = 0; i < number_of_sensors; i++) {
         sensors_weight[i] = i - (number_of_sensors - 1) / 2.0F;
     }
@@ -19,8 +19,8 @@ LineSensors<number_of_sensors, reading_per_sensor>::LineSensors(ADC_HandleTypeDe
     line_thresholds.fill((default_white_value + default_black_value) / 2);
 }
 
-template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
-float LineSensors<number_of_sensors, reading_per_sensor>::get_position() {
+template <uint8_t number_of_sensors>
+float LineSensors<number_of_sensors>::get_position() {
     hal_adc.update_reading();
 
     float position = 0;
@@ -40,8 +40,8 @@ float LineSensors<number_of_sensors, reading_per_sensor>::get_position() {
     return position;
 }
 
-template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
-void LineSensors<number_of_sensors, reading_per_sensor>::calibrate_white() {
+template <uint8_t number_of_sensors>
+void LineSensors<number_of_sensors>::calibrate_white() {
     hal_adc.update_reading();
 
     for (uint8_t i = 0; i < number_of_sensors; i++) {
@@ -50,8 +50,8 @@ void LineSensors<number_of_sensors, reading_per_sensor>::calibrate_white() {
     }
 }
 
-template <uint8_t number_of_sensors, uint16_t reading_per_sensor>
-void LineSensors<number_of_sensors, reading_per_sensor>::calibrate_black() {
+template <uint8_t number_of_sensors>
+void LineSensors<number_of_sensors>::calibrate_black() {
     hal_adc.update_reading();
 
     for (uint8_t i = 0; i < number_of_sensors; i++) {

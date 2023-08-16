@@ -3,49 +3,49 @@
 
 #include "hal/hal_adc.hpp"
 
-template <uint8_t number_of_channels, uint16_t reading_per_channel>
-bool HalAdc<number_of_channels, reading_per_channel>::reading_done = false;
+template <uint8_t number_of_channels>
+HalAdc<number_of_channels>::HalAdc(const AdcConfig& adc_config) {
+    this->adc_number = adc_config.adc_number;
 
-template <uint8_t number_of_channels, uint16_t reading_per_channel>
-HalAdc<number_of_channels, reading_per_channel>::HalAdc(const AdcConfig& adc_config) {
-    MX_DMA_Init();
-    MX_ADC1_Init();
+    adc_power_off(adc_config.adc_number);
 
-    this->adc_handle = adc_handle;
-    HalAdc::reading_done = false;
+    gpio_mode_setup(adc_config.gpio.port, adc_config.gpio.mode, adc_config.gpio.pull_resistor, adc_config.gpio.pin);
 
-    HAL_ADC_Start_DMA(this->adc_handle, this->buffer, this->buffer_size);
+    rcc_periph_clock_enable(adc_config.gpio.rcc_clock);
+    rcc_periph_clock_enable(adc_config.rcc_clock);
+    rcc_periph_reset_pulse(adc_config.rcc_reset);
+
+    adc_set_multi_mode(adc_config.mode);
+    adc_set_clk_prescale(adc_config.prescaler);
+    adc_set_resolution(adc_config.adc_number, adc_config.resolution);
+    adc_set_right_aligned(adc_config.adc_number);
+    adc_enable_scan_mode(adc_config.adc_number);
+    adc_set_single_conversion_mode(adc_config.adc_number);
+    adc_enable_discontinuous_mode_regular(adc_config.adc_number);
+    adc_disable_external_trigger_regular(adc_config.adc_number);
+
+    adc_set_regular_sequence(adc_config.adc_number, number_of_channels, adc_config.channels);
+    adc_set_sample_time_on_all_channels(adc_config.adc_number, adc_config.sample_time);
+
+    adc_power_on(adc_config.adc_number);
 }
 
-template <uint8_t number_of_channels, uint16_t reading_per_channel>
-void HalAdc<number_of_channels, reading_per_channel>::update_reading(void) {
-    if (not HalAdc::reading_done) {
-        return;
-    }
-
-    HalAdc::reading_done = false;
-    HAL_ADC_Stop_DMA(this->adc_handle);
-    this->adc_reading.fill(0);
-
+template <uint8_t number_of_channels>
+void HalAdc<number_of_channels>::update_reading(void) {
     for (uint8_t i = 0; i < number_of_channels; i++) {
-        for (uint16_t j = 0; j < reading_per_channel; j++) {
-            this->adc_reading[i] += this->buffer[number_of_channels * j + i];
+        adc_start_conversion_regular(this->adc_number);
+
+        while (not  adc_eoc(this->adc_number)) {
+            continue;
         }
 
-        this->adc_reading[i] /= reading_per_channel;
+        this->adc_reading[i] = adc_read_regular(this->adc_number);
     }
-
-    HAL_ADC_Start_DMA(this->adc_handle, this->buffer, this->buffer_size);
 }
 
-template <uint8_t number_of_channels, uint16_t reading_per_channel>
-uint32_t HalAdc<number_of_channels, reading_per_channel>::get_adc_reading(uint8_t channel) const {
+template <uint8_t number_of_channels>
+uint32_t HalAdc<number_of_channels>::get_adc_reading(uint8_t channel) const {
     return this->adc_reading[channel];
-}
-
-template <uint8_t number_of_channels, uint16_t reading_per_channel>
-void HalAdc<number_of_channels, reading_per_channel>::set_reading_done(void) {
-    HalAdc::reading_done = true;
 }
 
 #endif // __HAL_ADC_CPP__

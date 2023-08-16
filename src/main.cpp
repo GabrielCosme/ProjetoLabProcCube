@@ -17,7 +17,7 @@ int main(void) {
 
     HalGpio led(led_config);
 
-    LineSensors<adc_num_channels, adc_readings_per_channel> line_sensors(line_sensors_config);
+    LineSensors<adc_num_channels> line_sensors(line_sensors_config);
 
     Locomotion locomotion(left_motor_config, right_motor_config, left_deadzone, right_deadzone);
 

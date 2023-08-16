@@ -2,54 +2,68 @@
 #define __TARGET_HPP__
 
 #include "hal/hal_gpio.hpp"
+#include "hal/hal_adc.hpp"
 #include "proxy/motor.hpp"
+#include "proxy/button.hpp"
 
 constexpr GpioConfig button_config = {
     .port = GPIOB,
-    .mode = GPIO_MODE_INPUT,
-    .pull_resistor = GPIO_PUPD_PULLUP,
     .pin = GPIO10,
+    .mode = GPIO_MODE_INPUT,
+    .pull_resistor = GPIO_PUPD_NONE,
     .rcc_clock = RCC_GPIOB,
 };
 
+button_pull_resistor_t button_pull_resistor = BUTTON_PULL_UP;
+
 constexpr GpioConfig led_config = {
     .port = GPIOB,
+    .pin = GPIO15,
     .mode = GPIO_MODE_OUTPUT,
     .pull_resistor = GPIO_PUPD_NONE,
-    .pin = GPIO15,
     .rcc_clock = RCC_GPIOB,
+    .otype = GPIO_OTYPE_PP,
+    .speed = GPIO_OSPEED_2MHZ,
 };
 
 constexpr MotorConfig left_motor_config = {
     .forward_pwm = {
         .gpio = {
             .port = GPIOA,
+            .pin = GPIO15,
             .mode = GPIO_MODE_AF,
             .pull_resistor = GPIO_PUPD_NONE,
-            .pin = GPIO11,
             .rcc_clock = RCC_GPIOA,
+            .otype = GPIO_OTYPE_PP,
+            .speed = GPIO_OSPEED_2MHZ,
+            .alt_func_num = GPIO_AF1,
         },
-        .rcc_timer_clock = RCC_TIM1,
-        .timer = TIM1,
-        .period = 1000,
+        .timer = TIM2,
         .oc_id = TIM_OC1,
+        .rcc_clock = RCC_TIM2,
+        .period = 1000,
+        .clock_div = TIM_CR1_CKD_CK_INT,
+        .prescaler = 99,
         .oc_mode = TIM_OCM_PWM1,
-        .irqn = NVIC_TIM1_CC_IRQ,
     },
     .backward_pwm = {
         .gpio = {
-            .port = GPIOA,
+            .port = GPIOB,
+            .pin = GPIO3,
             .mode = GPIO_MODE_AF,
             .pull_resistor = GPIO_PUPD_NONE,
-            .pin = GPIO12,
-            .rcc_clock = RCC_GPIOA,
+            .rcc_clock = RCC_GPIOB,
+            .otype = GPIO_OTYPE_PP,
+            .speed = GPIO_OSPEED_2MHZ,
+            .alt_func_num = GPIO_AF1,
         },
-        .rcc_timer_clock = RCC_TIM1,
-        .timer = TIM1,
-        .period = 1000,
+        .timer = TIM2,
         .oc_id = TIM_OC2,
+        .rcc_clock = RCC_TIM2,
+        .period = 1000,
+        .clock_div = TIM_CR1_CKD_CK_INT,
+        .prescaler = 99,
         .oc_mode = TIM_OCM_PWM1,
-        .irqn = NVIC_TIM1_CC_IRQ,
     },
 };
 
@@ -57,40 +71,73 @@ constexpr MotorConfig right_motor_config = {
     .forward_pwm = {
         .gpio = {
             .port = GPIOA,
+            .pin = GPIO8,
             .mode = GPIO_MODE_AF,
             .pull_resistor = GPIO_PUPD_NONE,
-            .pin = GPIO8,
             .rcc_clock = RCC_GPIOA,
+            .otype = GPIO_OTYPE_PP,
+            .speed = GPIO_OSPEED_2MHZ,
+            .alt_func_num = GPIO_AF1,
         },
-        .rcc_timer_clock = RCC_TIM2,
-        .timer = TIM2,
-        .period = 1000,
+        .timer = TIM1,
         .oc_id = TIM_OC1,
+        .rcc_clock = RCC_TIM1,
+        .period = 1000,
+        .clock_div = TIM_CR1_CKD_CK_INT,
+        .prescaler = 99,
         .oc_mode = TIM_OCM_PWM1,
-        .irqn = NVIC_TIM2_CC_IRQ,
     },
     .backward_pwm = {
         .gpio = {
             .port = GPIOA,
+            .pin = GPIO8,
             .mode = GPIO_MODE_AF,
             .pull_resistor = GPIO_PUPD_NONE,
-            .pin = GPIO9,
             .rcc_clock = RCC_GPIOA,
+            .otype = GPIO_OTYPE_PP,
+            .speed = GPIO_OSPEED_2MHZ,
+            .alt_func_num = GPIO_AF1,
         },
-        .rcc_timer_clock = RCC_TIM2,
-        .timer = TIM2,
-        .period = 1000,
+        .timer = TIM1,
         .oc_id = TIM_OC2,
+        .rcc_clock = RCC_TIM1,
+        .period = 1000,
+        .clock_div = TIM_CR1_CKD_CK_INT,
+        .prescaler = 99,
         .oc_mode = TIM_OCM_PWM1,
-        .irqn = NVIC_TIM2_CC_IRQ,
     },
 };
 
-AdcConfig line_sensors_config = {
-};
-
-ADC_HandleTypeDef* line_sensor_adc_handle = &hadc1;
 constexpr uint8_t adc_num_channels = 8;
 constexpr uint16_t adc_readings_per_channel = 50;
+
+uint8_t adc_channels[adc_num_channels] = {
+    ADC_CHANNEL0,
+    ADC_CHANNEL1,
+    ADC_CHANNEL2,
+    ADC_CHANNEL3,
+    ADC_CHANNEL4,
+    ADC_CHANNEL5,
+    ADC_CHANNEL6,
+    ADC_CHANNEL7,
+};
+
+constexpr AdcConfig line_sensors_config = {
+    .gpio = {
+        .port = GPIOA,
+        .pin = GPIO0 | GPIO1 | GPIO2 | GPIO3 | GPIO4 | GPIO5 | GPIO6 | GPIO7,
+        .mode = GPIO_MODE_ANALOG,
+        .pull_resistor = GPIO_PUPD_NONE,
+        .rcc_clock = RCC_GPIOA,
+    },
+    .adc_number = ADC1,
+    .mode = ADC_CCR_MULTI_INDEPENDENT,
+    .rcc_clock = RCC_ADC1,
+    .rcc_reset = RST_ADC,
+    .prescaler = ADC_CCR_ADCPRE_BY4,
+    .resolution = ADC_CR1_RES_12BIT,
+    .channels = adc_channels,
+    .sample_time = ADC_SMPR_SMP_56CYC,
+};
 
 #endif // __TARGET_HPP__
