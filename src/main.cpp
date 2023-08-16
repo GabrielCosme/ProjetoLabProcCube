@@ -30,19 +30,18 @@ int main(void) {
 
     bool stopped = true;
     float angular_position = 0, line_measure = 0;
-    int16_t angular_command = 0;
-    int16_t linear_command = 0;
+    float linear_command = 0, angular_command = 0;
 
     for (;;) {
         button_status_t button_status = button.get_status();
 
-        if (button_status == BUTTON_LONG_PRESS) {
+        if (button_status == BUTTON_SHORT_PRESS) {
+            stopped = not stopped;
+            led.toggle();
+        } else if (button_status == BUTTON_LONG_PRESS) {
             line_sensors.calibrate_white();
         } else if (button_status == BUTTON_EXTRA_LONG_PRESS) {
             line_sensors.calibrate_black();
-        } else if (button_status == BUTTON_SHORT_PRESS) {
-            stopped = not stopped;
-            led.toggle();
         }
 
         if (stopped) {

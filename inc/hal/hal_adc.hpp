@@ -33,7 +33,7 @@ class HalAdc {
         /**
          * @brief Update the ADC reading
          */
-        void update_reading(void);
+        void update_reading();
 
         /**
          * @brief Get the reading of the ADC

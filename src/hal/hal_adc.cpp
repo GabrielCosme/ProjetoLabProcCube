@@ -4,9 +4,7 @@
 #include "hal/hal_adc.hpp"
 
 template <uint8_t number_of_channels>
-HalAdc<number_of_channels>::HalAdc(const AdcConfig& adc_config) {
-    this->adc_number = adc_config.adc_number;
-
+HalAdc<number_of_channels>::HalAdc(const AdcConfig& adc_config) : adc_number(adc_config.adc_number) {
     adc_power_off(adc_config.adc_number);
 
     gpio_mode_setup(adc_config.gpio.port, adc_config.gpio.mode, adc_config.gpio.pull_resistor, adc_config.gpio.pin);

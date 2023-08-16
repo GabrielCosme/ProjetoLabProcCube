@@ -13,14 +13,14 @@ class HalTimer {
         /**
          * @brief Reset the timer
          */
-        void reset(void);
+        void reset();
 
         /**
          * @brief Get elapsed time since last reset
          *
          * @return Elapsed time in seconds
          */
-        float get_time(void) const;
+        float get_time() const;
 
         /**
          * @brief Sleep for a given amount of time
@@ -32,7 +32,7 @@ class HalTimer {
         /**
          * @brief Increment the system ticks
          */
-        static void increment_system_ticks(void);
+        static void increment_system_ticks();
 
     private:
         /**

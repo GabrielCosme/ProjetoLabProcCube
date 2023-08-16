@@ -30,7 +30,7 @@ class HalGpio {
          *
          * @return True if the pin is high, false otherwise
          */
-        bool read(void) const;
+        bool read() const;
 
         /**
          * @brief Write to the GPIO pin
@@ -42,7 +42,7 @@ class HalGpio {
         /**
          * @brief Toggle the GPIO pin
          */
-        void toggle(void);
+        void toggle();
 
     private:
         /**
