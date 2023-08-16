@@ -41,6 +41,11 @@ class Button {
 
     private:
         /**
+         * @brief GPIO where the button is read from
+         */
+        const HalGpio hal_gpio;
+
+        /**
          * @brief Pull resistor configuration
          */
         button_pull_resistor_t pull_resistor;
@@ -69,11 +74,6 @@ class Button {
          * @brief Flag to know if button is being pressed
          */
         bool current_state = false;
-
-        /**
-         * @brief GPIO where the button is read from
-         */
-        const HalGpio hal_gpio;
 
         /**
          * @brief Reads the button state

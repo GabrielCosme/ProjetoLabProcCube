@@ -11,7 +11,7 @@
 #include "proxy/locomotion.hpp"
 
 int main(void) {
-    mcu_init();
+    mcu_init(clock_config);
 
     Button button(button_config, button_pull_resistor);
 

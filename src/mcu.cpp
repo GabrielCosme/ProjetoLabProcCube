@@ -1,12 +1,10 @@
 #include "mcu.hpp"
-#include "stm32f4xx_hal.h"
 
-void mcu_init(void) {
-    HAL_Init();
+void mcu_init(const ClockConfig& clock_config) {
+    rcc_clock_setup_pll(clock_config.clock_scale);
 
-    SystemClock_Config();
-}
-
-void mcu_sleep(uint32_t ms) {
-    HAL_Delay(ms);
+    systick_set_reload(clock_config.reload);
+    systick_set_clocksource(clock_config.clocksource);
+    systick_counter_enable();
+    systick_interrupt_enable();
 }

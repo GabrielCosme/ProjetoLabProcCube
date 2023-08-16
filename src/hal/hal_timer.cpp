@@ -1,14 +1,33 @@
+#include <libopencm3/cm3/systick.h>
+
 #include "hal/hal_timer.hpp"
-#include "tim.h"
+
+uint32_t HalTimer::system_ticks;
 
 HalTimer::HalTimer() {
-    this->ticks = HAL_GetTick();
+    this->ticks = HalTimer::system_ticks;
 }
 
 void HalTimer::reset(void) {
-    this->ticks = HAL_GetTick();
+    this->ticks = HalTimer::system_ticks;
 }
 
 float HalTimer::get_time(void) const {
-    return (HAL_GetTick() - this->ticks) / 1000.0F;
+    return (HalTimer::system_ticks - this->ticks) / 1000.0F;
+}
+
+void HalTimer::sleep(uint32_t milliseconds) {
+    uint32_t start = HalTimer::system_ticks;
+
+    while (HalTimer::system_ticks - start < milliseconds) {
+        continue;
+    }
+}
+
+void HalTimer::increment_system_ticks(void) {
+    HalTimer::system_ticks++;
+}
+
+void sys_tick_handler(void) {
+    HalTimer::increment_system_ticks();
 }

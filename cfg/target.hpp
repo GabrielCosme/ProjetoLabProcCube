@@ -1,10 +1,19 @@
 #ifndef __TARGET_HPP__
 #define __TARGET_HPP__
 
+#define STM32F4
+
+#include "mcu.hpp"
 #include "hal/hal_gpio.hpp"
 #include "hal/hal_adc.hpp"
 #include "proxy/motor.hpp"
 #include "proxy/button.hpp"
+
+constexpr ClockConfig clock_config = {
+    .clock_scale = &rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_96MHZ],
+    .reload = 96000,
+    .clocksource = STK_CSR_CLKSOURCE_AHB,
+};
 
 constexpr GpioConfig button_config = {
     .port = GPIOB,
